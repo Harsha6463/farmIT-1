@@ -61,7 +61,7 @@ const AdminVerifyInvestments = () => {
   return (
     <div className="dashboard-container">
       <Navbar UserType={"admin"} />
-      <h1 className="title" style={{ marginTop: "100px" }}>Admin Dashboard - Pending Loans</h1>
+      <h1 className="title" style={{ marginTop: "100px" }}>Admin Approvals For investments</h1>
 
       {loading ? (
         <p>Loading pending loans...</p>

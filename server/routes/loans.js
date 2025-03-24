@@ -224,8 +224,6 @@ router.get("/pending-investments", [auth, checkRole(["admin"])], async (req, res
       })
       .populate("farm", "name location");
 
-    console.log(`Found ${loans.length} loans with pending or verified status.`);
-
     res.status(200).json(loans);
   } catch (error) {
     console.error("Error fetching pending investments:", error);

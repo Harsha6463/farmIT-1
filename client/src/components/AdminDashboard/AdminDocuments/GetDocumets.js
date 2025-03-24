@@ -54,7 +54,7 @@ const GetDocuments = () => {
   return (
     <div className="document-container">
       <Navbar UserType="admin" />
-      <h2>Documents List</h2>
+      <h2  className="title" style={{marginTop:"80px"}}>Documents List</h2>
       {error && <p>{error}</p>}
       {documents.length === 0 ? (
         <p className="no-documents">No documents available.</p>
