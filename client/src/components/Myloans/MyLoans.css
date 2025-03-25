@@ -55,7 +55,7 @@
   padding: 6px 12px;
   border-radius: 5px;
   font-weight: bold;
-  display: inline-block; 
+  display: inline-block;
   text-align: center;
   width: 130px;
 }
@@ -101,12 +101,12 @@
 .issue-btn {
   display: block;
   margin: 20px auto;
-  background-color:  #d32f2f;
+  background-color: #d32f2f;
   color: white;
   font-weight: bold;
 }
 
-.issue-btn:hover { background-color:  #920e0e; }
+.issue-btn:hover { background-color: #920e0e; }
 
 .modal-overlay {
   position: fixed;
@@ -220,6 +220,7 @@
 .issue-icon {
   font-size: 24px;
 }
+
 .report-issue-btn {
   padding: 0.5rem 1rem;
   background-color: red;
@@ -236,4 +237,13 @@
   right: 15px;
   bottom: 30px;
   transition: background 0.3s ease;
+}
+
+.repayment-schedule {
+  color: white;
+}
+
+.repayment-schedule-item {
+  color: white;
+  margin-bottom: 10px;
 }
