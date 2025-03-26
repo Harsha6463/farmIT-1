@@ -1,6 +1,7 @@
 import Loan from "../models/Loan.js";
 import Farm from "../models/Farm.js";
 import Transaction from "../models/Transaction.js";
+import { emailTemplates, sendEmail } from "../services/emailService.js";
 
 class LoanController {
   async getMyLoans(req, res) {
@@ -43,12 +44,12 @@ class LoanController {
   async createLoan(req, res) {
     try {
       const { farmId, amount, interestRate, duration } = req.body;
-
+  
       const farm = await Farm.findOne({ _id: farmId, farmer: req.user.userId });
       if (!farm) {
         return res.status(404).json({ message: "Farm not found" });
       }
-
+  
       const loan = new Loan({
         farm: farmId,
         amount,
@@ -56,7 +57,17 @@ class LoanController {
         duration,
         repaymentSchedule: this.generateRepaymentSchedule(amount, interestRate, duration),
       });
-
+  
+      const requestLoandata = emailTemplates.loanRequestNotification(farm.name, amount);
+      const emailSendData = {
+        to: req.user.email,
+        subject: requestLoandata.subject,
+        html: requestLoandata.html,
+      };
+  console.log(requestLoandata)
+      sendEmail(emailSendData);
+      console.log("Loan request email sent");
+  
       await loan.save();
       res.json(loan);
     } catch (err) {
@@ -64,25 +75,40 @@ class LoanController {
       res.status(500).json({ message: "Server error" });
     }
   }
-
+  
   async investInLoan(req, res) {
     try {
       const { amount, fromUserId } = req.body;
       const loan = await Loan.findById(req.params.id);
       if (!loan) return res.status(404).json({ message: "Loan not found" });
       if (loan.status !== "pending") return res.status(400).json({ message: "Loan is not available for investment" });
-
+  
       const totalInvested = loan.investors.reduce((sum, inv) => sum + inv.amount, 0) + amount;
       if (totalInvested > loan.amount) return res.status(400).json({ message: "Investment exceeds loan amount" });
-
+  
       loan.investors.push({ investor: fromUserId, amount });
       if (totalInvested === loan.amount) loan.status = "pending";
+  
+      const farm = await Farm.findById(loan.farm); 
+      const requestLoandata = emailTemplates.investmentConfirmation(farm.name, amount);
+  
+      const emailSendData = {
+        to: req.user.email,
+        subject: requestLoandata.subject,
+        html: requestLoandata.html,
+      };
+  
+      console.log(requestLoandata);
+      sendEmail(emailSendData);
+      console.log("Investment confirmed");
+  
       await loan.save();
       res.json({ message: "Investment successful", loan });
     } catch (err) {
       res.status(500).json({ message: "Server error" });
     }
   }
+  
 
   async repayLoan(req, res) {
     try {
@@ -257,7 +283,17 @@ class LoanController {
 
       const repaymentSchedule = await generateRepaymentSchedule(loan.amount, loan.interestRate, loan.duration);
       loan.repaymentSchedule = repaymentSchedule;
-
+      const requestLoandata = emailTemplates.repaymentReminder( amount,dueDate);
+  
+      const emailSendData = {
+        to: req.user.email,
+        subject: requestLoandata.subject,
+        html: requestLoandata.html,
+      };
+  
+      console.log(requestLoandata);
+      sendEmail(emailSendData);
+      console.log("Repayment  Reminder");
       await loan.save();
 
       res.status(200).json({ message: "Investment credited successfully." });
