@@ -1,7 +1,7 @@
 import Loan from "../models/Loan.js";
 import Farm from "../models/Farm.js";
 import Transaction from "../models/Transaction.js";
-import { emailTemplates, sendEmail } from "../services/emailService.js";
+// import { emailTemplates, sendEmail } from "../services/emailService.js";
 
 class LoanController {
   async getMyLoans(req, res) {

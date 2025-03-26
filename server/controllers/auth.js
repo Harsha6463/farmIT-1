@@ -2,7 +2,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { emailTemplates, sendEmail } from "../services/emailService.js";
+import {  sendEmail } from "../services/emailService.js";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -11,15 +11,15 @@ class AuthController {
     try {
       const { email, password, role, firstName, lastName } = req.body;
       const profilePic = req.file ? req.file.path : "";
-
+  
       let user = await User.findOne({ email });
       if (user) {
         return res.status(400).json({ message: "User already exists" });
       }
-
+  
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-
+  
       user = new User({
         email,
         password: hashedPassword,
@@ -28,15 +28,34 @@ class AuthController {
         lastName,
         profilePic,
       });
+    
+      
+      console.log("📧 Sending email to:", email);
+  
+     
+      console.log("📧 Sending email to:", email);
 
+     
+      await sendEmail(
+        email,
+        "Farm IT - Registration Successful",
+        `<p><strong>Dear ${firstName}${lastName},</strong></p>
+        <p>Your account has been successfully registered.</p>
+        <p><strong>Admin verification takes 2 days.</strong> Once verified, you will receive another email notification, and then you can log in.</p>
+        <p>Thank you for your patience.</p>
+        <p><strong>Best Regards,</strong><br>Farm IT Team</p>`
+      );
       await user.save();
-
+  
       res.json({ message: "Registration successful", user });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error", error: err.message });
     }
   }
+  
+  
+  
   async  login(req, res) {
     try {
       const { email, password } = req.body;
@@ -60,16 +79,7 @@ class AuthController {
         { expiresIn: "24h" }
       );
       console.log("Login successful, token generated");
-  
-      const welcomeEmailData = emailTemplates.welcomeEmail(user.firstName,user.lastName);
-      const emailSendData = {
-        to: user.email,
-        subject: welcomeEmailData.subject,
-        html: welcomeEmailData.html,
-      };
-      console.log('Prepared welcome email:', welcomeEmailData);
-      sendEmail(emailSendData);
-      console.log("Welcome email sent");
+
   
       res.json({ token, role: user.role });
     } catch (err) {

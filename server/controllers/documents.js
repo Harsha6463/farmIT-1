@@ -1,11 +1,13 @@
 import Document from "../models/Document.js";
 import path from "path";
+import { sendEmail } from "../services/emailService.js";
+import User from "../models/User.js";
 
 class DocumentController {
   async uploadDocument(req, res) {
     try {
       const { title, type, relatedModel, relatedId } = req.body;
-
+  
       const document = new Document({
         title,
         type,
@@ -16,14 +18,30 @@ class DocumentController {
           id: relatedId,
         },
       });
-
+  
       await document.save();
+  
+      const user = await User.findById(req.user.userId).select('email firstName lastName');
+  
+    
+     await sendEmail(
+      user.email,
+      "Farm IT - Document Verification in Progress",
+      `<p><strong>Dear ${user.firstName} ${user.lastName},</strong></p>
+       <p>Your document <strong>${title}</strong> has been uploaded successfully and is currently under review.</p>
+       <p>Our team will verify it shortly, and you will receive another email once verification is completed.</p>
+       <p>Best Regards,<br>Farm IT Team</p>`
+    );
+
+    console.log("Verification email sent to:", user.email);
       res.json(document);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error" });
     }
   }
+  
+  
 
   async getMyDocuments(req, res) {
     try {

@@ -1,7 +1,7 @@
 import express from "express";
-
 import AuthController from "../controllers/auth.js";
 import multer from "multer";
+import path from "path"; 
 
 const router = express.Router();
 const authController = new AuthController();
@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     cb(null, "uploads/profilepics");
   },
   filename: (req, file, cb) => {
-    const fileExtension = path.extname(file.originalname);
+    const fileExtension = path.extname(file.originalname); 
     cb(null, Date.now() + fileExtension);
   },
 });
