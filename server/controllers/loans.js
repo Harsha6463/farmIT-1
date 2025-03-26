@@ -1,7 +1,9 @@
 import Loan from "../models/Loan.js";
 import Farm from "../models/Farm.js";
 import Transaction from "../models/Transaction.js";
-// import { emailTemplates, sendEmail } from "../services/emailService.js";
+import { sendEmail } from "../services/emailService.js";
+import User from "../models/User.js";
+
 
 class LoanController {
   async getMyLoans(req, res) {
@@ -57,16 +59,20 @@ class LoanController {
         duration,
         repaymentSchedule: this.generateRepaymentSchedule(amount, interestRate, duration),
       });
+       const user = await User.findById(req.user.userId).select('email firstName lastName');
+        
+          
+           await sendEmail(
+            user.email,
+             " Farm IT - Loan Request Submitted",
+            `<p>Dear ${user.firstName} ${user.lastName},</p>
+            <p>Your loan request for the amount of Rs:${amount} has been successfully submitted.</p>
+            <p>Your loan is currently under review, and you will be notified once it's processed.</p>
+            <p>Thank you for your patience.</p>
+            <p>Best regards,<br>Farm IT Team</p>`,
+           )
   
-      const requestLoandata = emailTemplates.loanRequestNotification(farm.name, amount);
-      const emailSendData = {
-        to: req.user.email,
-        subject: requestLoandata.subject,
-        html: requestLoandata.html,
-      };
-  console.log(requestLoandata)
-      sendEmail(emailSendData);
-      console.log("Loan request email sent");
+      
   
       await loan.save();
       res.json(loan);
@@ -88,19 +94,18 @@ class LoanController {
   
       loan.investors.push({ investor: fromUserId, amount });
       if (totalInvested === loan.amount) loan.status = "pending";
+      const farm = await Farm.findById(loan.farm);
+      const user = await User.findById(fromUserId).select('email firstName lastName'); 
   
-      const farm = await Farm.findById(loan.farm); 
-      const requestLoandata = emailTemplates.investmentConfirmation(farm.name, amount);
-  
-      const emailSendData = {
-        to: req.user.email,
-        subject: requestLoandata.subject,
-        html: requestLoandata.html,
-      };
-  
-      console.log(requestLoandata);
-      sendEmail(emailSendData);
-      console.log("Investment confirmed");
+      await sendEmail(
+        user.email,
+         " Farm IT - Loan Investment Submitted",
+        `<p>Dear ${user.firstName} ${user.lastName},</p>
+        <p>Your investment of ${amount} in the loan for the farm "${farm.name}" has been successfully submitted.</p>
+        <p>Your loan amount is currently under review, once it will verified amount fully funded.</p
+        <p>Thank you for your support!</p>
+        <p>Best regards,<br>Farm IT Team</p>`,
+      )
   
       await loan.save();
       res.json({ message: "Investment successful", loan });
@@ -238,16 +243,16 @@ class LoanController {
       const { loanId, investorId } = req.body;
       const loan = await Loan.findById(loanId).populate("farm");
       if (!loan) return res.status(404).json({ message: "Loan not found" });
-
+  
       const investor = loan.investors.find(inv => inv.investor.toString() === investorId._id);
       if (!investor) return res.status(404).json({ message: "Investor not found" });
-
+  
       if (loan.status !== "verified") {
         return res.status(400).json({ message: "Investment must be verified before crediting" });
       }
-
+  
       investor.status = "debited";
-
+  
       await Transaction.create({
         loan: loan._id,
         from: investor.investor,
@@ -256,22 +261,22 @@ class LoanController {
         type: "investment",
         date: new Date(),
       });
-
+  
       loan.status = "credited"; 
-
+  
       const generateRepaymentSchedule = async (amount, interestRate, duration) => {
         const monthlyInterest = interestRate / 12 / 100;
         const monthlyPayment = (amount * monthlyInterest * Math.pow(1 + monthlyInterest, duration)) /
           (Math.pow(1 + monthlyInterest, duration) - 1);
-
+  
         const schedule = [];
         let remainingBalance = amount;
-
+  
         for (let i = 1; i <= duration; i++) {
           const interest = remainingBalance * monthlyInterest;
           const principal = monthlyPayment - interest;
           remainingBalance -= principal;
-
+  
           schedule.push({
             dueDate: new Date(Date.now() + i * 30 * 24 * 60 * 60 * 1000),
             amount: monthlyPayment,
@@ -280,28 +285,34 @@ class LoanController {
         }
         return schedule;
       };
-
+  
       const repaymentSchedule = await generateRepaymentSchedule(loan.amount, loan.interestRate, loan.duration);
       loan.repaymentSchedule = repaymentSchedule;
-      const requestLoandata = emailTemplates.repaymentReminder( amount,dueDate);
-  
-      const emailSendData = {
-        to: req.user.email,
-        subject: requestLoandata.subject,
-        html: requestLoandata.html,
-      };
-  
-      console.log(requestLoandata);
-      sendEmail(emailSendData);
-      console.log("Repayment  Reminder");
+      
+      const investors = await User.findById(investor.investor).select('email firstName lastName');
+      const farmer = await User.findById(loan.farm.farmer).select('email firstName lastName');
+      
       await loan.save();
-
+  
+  
+      await sendEmail(
+        farmer.email,  
+        "Farm IT - Investment Credited",
+        `<p>Dear ${farmer.firstName} ${farmer.lastName},</p>
+          <p>We are happy to inform you that your investment in the loan for the farm "${loan.farm.name}" has been successfully credited.</p>
+          <p> Dear ${investors.firstName}${investors.lastName}, Your investment has been debited from your account, and the loan is now fully processed. You will begin receiving repayment schedule notifications shortly and tracking details....</p>
+          <p>Thank you for your support!</p>
+          <p>Best regards,<br>Farm IT Team</p>`
+      );
+  
       res.status(200).json({ message: "Investment credited successfully." });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Server error", error: error.message });
     }
   }
+  
+  
 }
 
 export default LoanController;

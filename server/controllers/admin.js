@@ -22,32 +22,27 @@ class AdminController {
         { isVerified: true },
         { new: true }
       ).select("-password");
-      const mailDetails = {
-        to: user.email,
-        subject: "Account Verified",
-        text: `Farm IT - Account Verified,\n\n`
-
-      `  Dear ${user.firstName} ${user.lastName},\n\n`
-
-       ` Your Farm IT account has been successfully verified.\n\n`
-
-       ` You can now log in to your account and start managing your farms.\n\n`
-
-      `  click on that link http://localhost:3000/login and start using all features.\n\n`
-`
-        If you have any questions, feel free to contact our support team.\n\n`
-
-       ` Best Regards,\n\n`
-      `  Farm IT Team,\n\n`
-      };
-      console.log(mailDetails);
-      sendEmail(mailDetails);
+  
+    
+  
+      console.log("📧 Sending verification email to:", user.email);
+      await sendEmail(
+        user.email,
+        "Farm IT - Account Verified",
+        `<p><strong>Dear ${user.firstName} ${user.lastName},</strong></p>
+        <p>Your Farm IT account has been successfully verified.</p>
+        <p>You can now <a href="http://localhost:3000/login" target="_blank">log in</a> and start using all features.</p>
+        <p>If you have any questions, feel free to contact our support team.</p>
+        <p><strong>Best Regards,</strong><br>Farm IT Team</p>`
+      );
+  
       res.json(user);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error" });
     }
   }
+  
 
   async getDocuments(req, res) {
     try {
