@@ -28,8 +28,13 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
   profilePic: {
-    type: String,  
+    type: String,
     default: '',
+  },
+  mobileNumber: {
+    type: String,
+    required: true, 
+    unique: true,  
   },
   createdAt: {
     type: Date,
