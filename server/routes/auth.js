@@ -21,6 +21,6 @@ const upload = multer({ storage });
 router.post("/register", upload.single("profilePic"), (req, res) => authController.register(req, res));
 router.post("/verify-otp", (req, res) => authController.verifyOtp(req, res)); 
 router.post("/login", (req, res) => authController.login(req, res));
-router.post("/resend-otp", (req, res) => authController.resendOtp(req, res));
+router.post("/send-otp", (req, res) => authController.sendOtp(req, res));
 
 export default router;

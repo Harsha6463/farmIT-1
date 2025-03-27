@@ -24,7 +24,9 @@
   text-align: center;
 }
 
-.form-container input {
+.form-container input,
+.form-container .phone-input,
+.form-container select {
   padding: 14px;
   margin-bottom: 1.5rem;
   border-radius: 6px;
@@ -35,13 +37,16 @@
   transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-container input:focus {
+.form-container input:focus,
+.form-container .phone-input:focus,
+.form-container select:focus {
   border: 2px solid #6658d3;
   outline: none;
   box-shadow: 0 0 5px rgba(102, 88, 211, 0.3);
 }
 
-.form-container input::placeholder {
+.form-container input::placeholder,
+.form-container .phone-input input::placeholder {
   color: #8597a3;
 }
 
@@ -83,30 +88,39 @@
   transform: translateY(1px);
 }
 
-.select-input {
+.phone-input {
+  display: flex;
+  flex-direction: row;
+}
+
+.phone-input input {
+  flex: 1;
   padding: 14px;
-  margin-bottom: 1.5rem;
   border-radius: 6px;
-  width: 100%;
   border: 1px solid #ccc;
   font-size: 1rem;
   color: #333;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-.select-input:focus {
-  border: 2px solid #6658d3;
-  outline: none;
-  box-shadow: 0 0 5px rgba(102, 88, 211, 0.3);
+.authbutton {
+  background-color: #007bff;
+  color: #fff;
 }
 
-.select-input option {
-  color: #333;
-}
-.passwordicon{
+.password-container {
   position: relative;
-  bottom: 58px;
-  left: 150px;
-  font-size: 18px;
 }
 
+.password-container input {
+  width: 100%;
+  padding-right: 30px;
+}
+
+.passwordicon {
+  position: absolute;
+  right: 20px;
+  top: 30px;  
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+}
