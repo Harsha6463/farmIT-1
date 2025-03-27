@@ -97,11 +97,10 @@ class AuthController {
       const otpMessage = `
         Farm IT - Email Verification Process
         <p>Dear <b>${user.firstName} ${user.lastName}</b>,</p>
-        <p>Your OTP for registration is <strong>${otp}</strong>.</p>
-        <p>This OTP will remain valid until you verify it.</p>
-        <p>Thank you for registering with us.</p>`;
+        <p>Your OTP for Login is <strong>${otp}</strong>.</p>
+        <p>This OTP will remain valid until you verify it.</p>`;
 
-      await sendEmail(email, "Your OTP for Registration", otpMessage);
+      await sendEmail(email, "Your OTP for Login", otpMessage);
 
       res.json({ message: "OTP resent successfully. Please check your email." });
     } catch (err) {
@@ -147,7 +146,7 @@ class AuthController {
   
         const otpData = global.otpStore[email];
         console.log("OTP data from store:", otpData);
-        
+
         if (!otp || otp !== otpData) {
         console.log(otp,otpData)
           return res.status(400).json({ message: "Invalid OTP" });

@@ -299,7 +299,7 @@ class LoanController {
         farmer.email,  
         "Farm IT - Investment Credited",
         `<p>Dear ${farmer.firstName} ${farmer.lastName},</p>
-          <p>We are happy to inform you that your investment in the loan for the farm "${loan.farm.name}" has been successfully credited.</p>
+          <p>We are happy to inform you that your investment in the loan for the farm "${loan.farm.name}" has been successfully credited  🎉 🎉.</p>
           <p> Dear ${investors.firstName}${investors.lastName}, Your investment has been debited from your account, and the loan is now fully processed. You will begin receiving repayment schedule notifications shortly and tracking details....</p>
           <p>Thank you for your support!</p>
           <p>Best regards,<br>Farm IT Team</p>`

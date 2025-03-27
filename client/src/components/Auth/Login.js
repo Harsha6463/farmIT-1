@@ -88,7 +88,7 @@ const Login = () => {
           </>
         )}
         {isOtpLogin && !otpSent && (
-          <button type="button" onClick={requestOtp}>Send OTP</button>
+          <button className="authbutton"type="button" onClick={requestOtp}>Send OTP</button>
         )}
         {isOtpLogin && otpSent && (
           <>
@@ -106,7 +106,7 @@ const Login = () => {
           If you haven't Registered,{" "}
           <Link to="/register" className="link">Register</Link>
         </h4>
-        <button type="button" onClick={toggleLoginMethod}>
+        <button className="authbutton" type="button" onClick={toggleLoginMethod}>
           {isOtpLogin ? "Login with Password" : "Login with OTP"}
         </button>
       </form>
