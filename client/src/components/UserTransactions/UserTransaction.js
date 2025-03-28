@@ -54,13 +54,16 @@ const TransactionsPage = () => {
                 const loan = transaction.loan;
                 const loanAmount = loan ? loan.amount : 'N/A';
                 const interestRate = loan ? loan.interestRate : 'N/A';
+                const fromName = transaction.from ? `${transaction.from.firstName} ${transaction.from.lastName}` : 'N/A';
+                const toName = transaction.to ? `${transaction.to.firstName} ${transaction.to.lastName}` : 'N/A';
+
                 return (
                   <tr key={transaction._id}>
-                    <td>{transaction._id}</td> {/* Display the Transaction ID */}
+                    <td>{transaction._id}</td>
                     <td>{loanAmount}</td>
                     <td>{interestRate}%</td>
-                    <td>{transaction.from.firstName} {transaction.from.lastName}</td>
-                    <td>{transaction.to.firstName} {transaction.to.lastName}</td>
+                    <td>{fromName}</td>
+                    <td>{toName}</td>
                     <td>{transaction.amount}</td>
                     <td>
                       <span className={`status ${transaction.type === 'investment' ? 'investment' : 'repayment'}`}>

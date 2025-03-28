@@ -120,11 +120,11 @@ class LoanController {
       const { amount, toUserId } = req.body;
       const fromUserId = req.user.userId;
       const loan = await Loan.findById(req.params.id).populate("farm");
-
+  
       if (!loan) {
         return res.status(404).json({ message: "Loan not found" });
       }
-
+  
       const transaction = new Transaction({
         type: "repayment",
         amount: amount,
@@ -133,23 +133,41 @@ class LoanController {
         to: toUserId,
       });
       await transaction.save();
-
+  
       const unpaidPayment = loan.repaymentSchedule.find(p => p.status === "pending");
       if (!unpaidPayment) {
         return res.status(400).json({ message: "No pending payments found" });
       }
-
+  
       if (amount !== unpaidPayment.amount) {
         return res.status(400).json({ message: "Payment amount must match the scheduled amount" });
       }
-
+  
       unpaidPayment.status = "paid";
-
+  
       const allPaid = loan.repaymentSchedule.every(p => p.status === "paid");
       if (allPaid) {
         loan.status = "completed";
       }
-
+  
+      const user = await User.findById(req.user.userId).select('email firstName lastName');
+      
+    
+      const nextDuePayment = loan.repaymentSchedule.find(p => p.status === "pending");
+      const nextDueDate = nextDuePayment ? new Date(nextDuePayment.dueDate).toLocaleDateString() : "N/A";
+      const nextDueAmount = nextDuePayment ? nextDuePayment.amount : "N/A";
+      
+      await sendEmail(
+        user.email,
+        "Farm IT - Loan Repayment Successful",
+        `<p>Dear <b>${user.firstName}</b> <b>${user.lastName}</b>,</p>
+         <p>Your repayment of <b>${amount}</b> for the loan has been Paid successfully .</p>
+         <p>Your Transaction Id for this repayment is:<b>${transaction._id}</b></p>
+         <p>Thank you for your timely payment!</p>
+         <p>The next payment is due on <b>${nextDueDate}</b>, with an amount of <b>${nextDueAmount}<b/>.</p>
+         <p>Best regards,<br>Farm IT Team</p>`
+      );
+      
       await loan.save();
       res.json({ message: "Repayment successful and transaction recorded", loan, transaction });
     } catch (err) {
@@ -157,6 +175,7 @@ class LoanController {
       res.status(500).json({ message: "Server error" });
     }
   }
+  
 
   async getRepaymentSchedule(req, res) {
     try {
@@ -253,6 +272,7 @@ class LoanController {
   
       investor.status = "debited";
   
+     
       await Transaction.create({
         loan: loan._id,
         from: investor.investor,
@@ -262,7 +282,7 @@ class LoanController {
         date: new Date(),
       });
   
-      loan.status = "credited"; 
+      loan.status = "credited";
   
       const generateRepaymentSchedule = async (amount, interestRate, duration) => {
         const monthlyInterest = interestRate / 12 / 100;
@@ -278,7 +298,7 @@ class LoanController {
           remainingBalance -= principal;
   
           schedule.push({
-            dueDate: new Date(Date.now() + i * 30 * 24 * 60 * 60 * 1000),
+            dueDate: new Date(Date.now() + i * 30 * 24 * 60 * 60 * 1000), 
             amount: monthlyPayment,
             status: "pending",
           });
@@ -288,29 +308,41 @@ class LoanController {
   
       const repaymentSchedule = await generateRepaymentSchedule(loan.amount, loan.interestRate, loan.duration);
       loan.repaymentSchedule = repaymentSchedule;
-      
-      const investors = await User.findById(investor.investor).select('email firstName lastName');
-      const farmer = await User.findById(loan.farm.farmer).select('email firstName lastName');
+  
+      const investorUser = await User.findById(investor.investor).select('email firstName lastName');
+      const farmerUser = await User.findById(loan.farm.farmer).select('email firstName lastName');
+  
       
       await loan.save();
   
-  
+   
       await sendEmail(
-        farmer.email,  
+        farmerUser.email,
         "Farm IT - Investment Credited",
-        `<p>Dear ${farmer.firstName} ${farmer.lastName},</p>
-          <p>We are happy to inform you that your investment in the loan for the farm "${loan.farm.name}" has been successfully credited  🎉 🎉.</p>
-          <p> Dear ${investors.firstName}${investors.lastName}, Your investment has been debited from your account, and the loan is now fully processed. You will begin receiving repayment schedule notifications shortly and tracking details....</p>
+        `<p>Dear ${farmerUser.firstName} ${farmerUser.lastName},</p>
+          <p>We are happy to inform you that your investment in the loan for the farm "${loan.farm.name}" has been successfully credited 🎉 🎉.</p>
           <p>Thank you for your support!</p>
           <p>Best regards,<br>Farm IT Team</p>`
       );
   
-      res.status(200).json({ message: "Investment credited successfully." });
+     
+      await sendEmail(
+        investorUser.email,
+        "Farm IT - Investment Debited",
+        `<p>Dear ${investorUser.firstName} ${investorUser.lastName},</p>
+          <p>Your investment has been debited from your account, and the loan is now fully processed.</p>
+          <p>You will begin receiving repayment schedule notifications shortly and tracking details....</p>
+          <p>Thank you for your support!</p>
+          <p>Best regards,<br>Farm IT Team</p>`
+      );
+  
+      res.status(200).json({ message: "Investment credited and debited successfully." });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Server error", error: error.message });
     }
   }
+  
   
   
 }

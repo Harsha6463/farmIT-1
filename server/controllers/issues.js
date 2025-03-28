@@ -27,11 +27,10 @@ class IssueController {
 
   async getAllIssues(req, res) {
     try {
-      const issues = await Issue.find();
+      const issues = await Issue.find().populate("user", "firstName lastName");
       res.json(issues);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Server error" });
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching issues", error: error.message });
     }
   }
 

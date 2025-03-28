@@ -28,7 +28,9 @@ const AdminIssuesDashboard = () => {
       <Navbar UserType={"admin"} />
       <div className="admin-issues-dashboard">
         <div className="issues-dashboard-content">
-          <h1 className="title"  style={{marginTop:"90px"}}>Admin Issues Dashboard</h1>
+          <h1 className="title" style={{ marginTop: "90px" }}>
+            Admin Issues Dashboard
+          </h1>
           {loading ? (
             <p className="loading-text">
               <b>Loading issues...</b>
@@ -38,13 +40,13 @@ const AdminIssuesDashboard = () => {
               {issues.map((issue) => (
                 <div key={issue._id} className="issue-item-card">
                   <h2>{issue.issueTitle}</h2>
-                  <p>
-                    <b>Reported By:</b> {issue.user}
+                  <p className="admin">
+                    <b>Reported By:</b> {issue.user?.firstName} {issue.user?.lastName}
                   </p>
-                  <p>
+                  <p className="admin">
                     <b>Description:</b> {issue.issueDiscription}
                   </p>
-                  <p>
+                  <p className="admin">
                     <b>Reported On:</b>{" "}
                     {new Date(issue.createdAt).toLocaleDateString()}
                   </p>

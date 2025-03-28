@@ -16,3 +16,7 @@ body {
   height: 100vh;
   margin: 0;
 }
+
+.admin{
+  font-size: 1.25rem;
+}

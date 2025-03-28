@@ -46,11 +46,14 @@ class AdminController {
 
   async getDocuments(req, res) {
     try {
-      const documents = await Document.find();
-      res.json(documents);
+
+      const documents = await Document.find()
+        .populate("owner", "firstName lastName"); 
+      
+      res.json(documents);  
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: "Server error" });
+      res.status(500).json({ message: "Server error" });  
     }
   }
 
@@ -101,11 +104,11 @@ class AdminController {
 
   async getFarms(req, res) {
     try {
-      const farms = await Farm.find().populate("farmer");
+     
+      const farms = await Farm.find().populate("farmer", "firstName lastName");
       res.json(farms);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Server error" });
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching farms", error: error.message });
     }
   }
 

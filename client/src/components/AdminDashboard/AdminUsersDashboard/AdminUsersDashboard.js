@@ -91,7 +91,7 @@ const AdminUsersDashboard = () => {
                   }}
                 >
                   <h2>{user.firstName} {user.lastName}</h2>
-                  <p><b>Email:</b> {user.email}</p>
+                  <p ><b>Email:</b> {user.email}</p>
                   <p><b>Role:</b> {user.role}</p>
                   <button
                     className="view-details-btn"

@@ -54,7 +54,7 @@ const GetDocuments = () => {
   return (
     <div className="document-container">
       <Navbar UserType="admin" />
-      <h2  className="title" style={{marginTop:"80px"}}>Documents List</h2>
+      <h2 className="title" style={{marginTop:"80px"}}>Documents List</h2>
       {error && <p>{error}</p>}
       {documents.length === 0 ? (
         <p className="no-documents">No documents available.</p>
@@ -72,11 +72,11 @@ const GetDocuments = () => {
           <tbody>
             {documents.map((doc) => (
               <tr key={doc._id}>
-                <td>{doc.title}</td>
-                <td>{doc.type}</td>
-                <td>{new Date(doc.uploadedAt).toLocaleString()}</td>
-                <td>{doc._id}</td>
-                <td>
+                <td style={{fontSize:"1.35rem"}}>{doc.title}</td>
+                <td  style={{fontSize:"1.35rem"}}>{doc.type}</td>
+                <td  style={{fontSize:"1.35rem"}}>{new Date(doc.uploadedAt).toLocaleString()}</td>
+                <td  style={{fontSize:"1.35rem"}}>{doc.owner ? `${doc.owner.firstName} ${doc.owner.lastName}` : 'Unknown'}</td> 
+                <td  style={{fontSize:"1.35rem"}}>
                   <a
                     href={`http://localhost:3600/${doc.filePath}`}
                     target="_blank"

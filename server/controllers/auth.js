@@ -53,30 +53,6 @@ class AuthController {
     }
   }
 
-  async verifyOtp(req, res) {
-    try {
-      const { email, otp } = req.body;
-
-      if (global.otpStore[email] !== otp) {
-        return res.status(400).json({ message: "Invalid OTP" });
-      }
-
-      const user = await User.findOne({ email });
-      if (user) {
-        user.isVerified = true;
-        await user.save();
-
-        delete global.otpStore[email];
-
-        res.json({ message: "OTP verified successfully. You can now log in." });
-      } else {
-        res.status(400).json({ message: "User not found" });
-      }
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Server error", error: err.message });
-    }
-  }
 
   async sendOtp(req, res) {
     try {

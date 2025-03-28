@@ -28,7 +28,9 @@ const AdminFarmsDashboard = () => {
       <Navbar UserType={"admin"} />
       <div className="admin-farm-dashboard">
         <div className="farm-dashboard-content">
-          <h1 className="title"style={{marginTop:"120px"}}>Admin Farms Dashboard</h1>
+          <h1 className="title" style={{ marginTop: "120px" }}>
+            Admin Farms Dashboard
+          </h1>
           {loading ? (
             <p className="loading-text">
               <b>Loading farms...</b>
@@ -42,10 +44,16 @@ const AdminFarmsDashboard = () => {
                     alt="Farm"
                     className="farm-card-image"
                   />
-                  <h2><b>🌾</b>{farm.name}</h2>
+                  <h2>
+                    <b>🌾</b>{farm.name}
+                  </h2>
                   <p>
-                    <b>Farmer:</b> {farm.farmer.firstName}{" "}
-                    {farm.farmer.lastName}
+                    <b>Farmer:</b> 
+                    {farm.farmer ? (
+                      `${farm.farmer.firstName} ${farm.farmer.lastName}`
+                    ) : (
+                      "No farmer assigned"
+                    )}
                   </p>
                   <p>
                     <b>Location:</b> {farm.location}
