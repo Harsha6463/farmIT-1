@@ -42,7 +42,7 @@ const Login = () => {
     setFormData({ ...formData, otp: e.target.value });
   };
 
-  const toggleLoginMethod = () => {
+  const LoginMethod = () => {
     setIsOtpLogin(!isOtpLogin);
     setFormData({ ...formData, otp: "" });
     setOtpSent(false);
@@ -106,7 +106,7 @@ const Login = () => {
           If you haven't Registered,{" "}
           <Link to="/register" className="link">Register</Link>
         </h4>
-        <button className="authbutton" type="button" onClick={toggleLoginMethod}>
+        <button className="authbutton" type="button" onClick={LoginMethod}>
           {isOtpLogin ? "Login with Password" : "Login with OTP"}
         </button>
       </form>

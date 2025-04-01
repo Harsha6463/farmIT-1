@@ -118,33 +118,18 @@ class AuthController {
       }
   
       if (otp) {
-        console.log("OTP entered:", otp); 
-  
         const otpData = global.otpStore[email];
-        console.log("OTP data from store:", otpData);
-
         if (!otp || otp !== otpData) {
-        console.log(otp,otpData)
           return res.status(400).json({ message: "Invalid OTP" });
         }
   
-        const token = jwt.sign(
-          { userId: user._id, role: user.role },
-          process.env.JWT_SECRET,
-          { expiresIn: "24h" }
-        );
+      const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "24h" });
   
-        delete global.otpStore[email];
-  
-        return res.json({ token, role: user.role });
+      delete global.otpStore[email];
+      return res.json({ token, role: user.role });
       }
   
-      const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-      const otpTimestamp = Date.now();
-      global.otpStore[email] = { otp: otpCode, timestamp: otpTimestamp };
-  
-      await sendEmail(user.email, otpCode);
-  
+      await sendEmail(user.email);
       return res.status(200).json({ message: "OTP sent to your email." });
   
     } catch (err) {
@@ -152,6 +137,7 @@ class AuthController {
       res.status(500).json({ message: "Server error", error: err.message });
     }
   }
+  
   
   
   
