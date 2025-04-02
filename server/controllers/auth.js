@@ -78,7 +78,7 @@ class AuthController {
 
       await sendEmail(email, "Your OTP for Login", otpMessage);
 
-      res.json({ message: "OTP resent successfully. Please check your email." });
+      res.json({ message: "OTP sent successfully. Please check your email." });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error", error: err.message });
@@ -137,14 +137,7 @@ class AuthController {
       res.status(500).json({ message: "Server error", error: err.message });
     }
   }
-  
-  
-  
-  
-  
-  
-  
-  
+   
 }
 
 export default AuthController;
