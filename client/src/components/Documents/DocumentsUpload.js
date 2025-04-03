@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import API from "../../API"; // Assuming you have an API setup
+import API from "../../API"; 
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import "./Document.css"; // Add appropriate styling
+import "./Document.css"; 
 import Navbar from "../Navbar/Navbar";
 
 const DocumentUpload = () => {
@@ -14,7 +14,7 @@ const DocumentUpload = () => {
   });
   const navigate = useNavigate();
 
-  // Handle input changes for text fields and file input
+
   const handleChange = (e) => {
     if (e.target.name === "file") {
       setFormData({ ...formData, file: e.target.files[0] });
@@ -23,7 +23,7 @@ const DocumentUpload = () => {
     }
   };
 
-  // Handle form submission to upload the document
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,19 +36,19 @@ const DocumentUpload = () => {
 
   
 
-    // Create FormData to send as multipart/form-data
+
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("title", formData.title);
     formDataToSubmit.append("type", formData.type);
     formDataToSubmit.append("file", formData.file);
 
-    // Include userId in the request
+   
     formDataToSubmit.append("token", token);
 
     try {
       const response = await API.post("/documents/upload", formDataToSubmit, {
         headers: {
-          Authorization: `Bearer ${token}`,  // Sending token for authorization
+          Authorization: `Bearer ${token}`,  
           "Content-Type": "multipart/form-data",
         },
       });

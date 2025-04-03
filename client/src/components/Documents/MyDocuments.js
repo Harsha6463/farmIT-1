@@ -41,7 +41,7 @@ const MyDocuments = () => {
       const config = { headers: { Authorization: `Bearer ${token}` } };
       await API.delete(`/documents/${id}`, config);
       toast.success("Document deleted successfully!");
-      fetchDocuments(); // Re-fetch documents after deletion
+      fetchDocuments(); 
     } catch (error) {
       console.error("Error deleting document:", error);
       toast.error(error.response?.data?.message || "Failed to delete document");
@@ -61,7 +61,6 @@ const MyDocuments = () => {
               <th>Title</th>
               <th>Type</th>
               <th>Uploaded</th>
-              <th>ID</th>
               <th>Status</th> 
               <th>Actions</th>
             </tr>
@@ -72,10 +71,9 @@ const MyDocuments = () => {
                 <td>{doc.title}</td>
                 <td>{doc.type}</td>
                 <td>{new Date(doc.uploadedAt).toLocaleDateString()}</td>
-                <td>{doc._id}</td>
                 <td style={{ color: doc.isVerified ? 'green' : 'red' }}>
                   {doc.isVerified ? "Verified" : "Not Verified"}
-                </td> {/* Conditional inline CSS for color */}
+                </td> 
                 <td>
                   <a
                     href={`http://localhost:3600/${doc.filePath}`}

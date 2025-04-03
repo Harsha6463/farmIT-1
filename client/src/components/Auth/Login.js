@@ -11,10 +11,25 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isOtpLogin, setIsOtpLogin] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
+  const [errors, setErrors] = useState({ email: false, password: false, otp: false });
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    let formErrors = { email: false, password: false, otp: false };
+
+    if (!formData.email) formErrors.email = true;
+    if (!isOtpLogin && !formData.password) formErrors.password = true;
+    if (isOtpLogin && otpSent && !formData.otp) formErrors.otp = true;
+
+    setErrors(formErrors);
+    return Object.values(formErrors).every((error) => !error);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
     try {
       if (isOtpLogin && otpSent) {
         const { data } = await API.post("/auth/login", { email: formData.email, otp: formData.otp });
@@ -68,7 +83,10 @@ const Login = () => {
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
+          className={errors.email ? "error" : ""}
         />
+        {errors.email && <span className="error-message">This field is required</span>}
+
         {!isOtpLogin && !otpSent && (
           <>
             <div className="password-container">
@@ -79,16 +97,18 @@ const Login = () => {
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
+                className={errors.password ? "error" : ""}
               />
               <span className="passwordicon" onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
+            {errors.password && <span className="error-message">This field is required</span>}
             <button type="submit" className="authbutton">Login</button>
           </>
         )}
         {isOtpLogin && !otpSent && (
-          <button className="authbutton"type="button" onClick={requestOtp}>Send OTP</button>
+          <button className="authbutton" type="button" onClick={requestOtp}>Send OTP</button>
         )}
         {isOtpLogin && otpSent && (
           <>
@@ -98,7 +118,9 @@ const Login = () => {
               value={formData.otp}
               onChange={handleOtpChange}
               required
+              className={errors.otp ? "error" : ""}
             />
+            {errors.otp && <span className="error-message">This field is required</span>}
             <button type="submit" className="authbutton">Login with OTP</button>
           </>
         )}

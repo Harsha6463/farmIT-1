@@ -77,7 +77,7 @@ const InvestorFeed = () => {
               top: "20px",
             }}
           >
-            Investor Feed
+            Request Loans
           </h1>
         </div>
 

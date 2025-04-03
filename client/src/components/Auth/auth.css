@@ -124,3 +124,22 @@
   cursor: pointer;
   color: #666;
 }
+.form-container input.error {
+  border-color: red;
+}
+
+.form-container input:focus.error {
+  border-color: red;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+}
+
+.form-container input::placeholder.error {
+  color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 5px;
+  margin-bottom: 1rem;
+}

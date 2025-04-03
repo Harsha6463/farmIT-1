@@ -348,3 +348,132 @@ class LoanController {
 }
 
 export default LoanController;
+
+// async creditInvestment(req, res) {
+//   try {
+//     const { loanId, investorId } = req.body;
+//     const loan = await Loan.findById(loanId).populate("farm");
+//     if (!loan) return res.status(404).json({ message: "Loan not found" });
+
+//     const investor = loan.investors.find(
+//       (inv) => inv.investor.toString() === investorId._id
+//     );
+//     if (!investor)
+//       return res.status(404).json({ message: "Investor not found" });
+
+//     if (loan.status !== "verified") {
+//       return res
+//         .status(400)
+//         .json({ message: "Investment must be verified before crediting" });
+//     }
+
+//     investor.status = "debited";
+
+//     const paymentOrder = await createOrder({
+//       appId: process.env.CASHFREE_APP_ID,
+//       secretKey: process.env.CASHFREE_SECRET_KEY,
+//       orderId: `order-${Date.now()}`,
+//       orderAmount: investor.amount,
+//       customerName: `${investor.firstName} ${investor.lastName}`,
+//       customerEmail: investor.email,
+//       returnUrl: "https://yourdomain.com/payment/return",
+//       cancelUrl: "https://yourdomain.com/payment/cancel",
+//     });
+
+//     if (!paymentOrder || paymentOrder.status !== "OK") {
+//       return res
+//         .status(500)
+//         .json({ message: "Failed to create payment order" });
+//     }
+
+//     const paymentLink = paymentOrder.paymentLink;
+
+//     const investorUser = await User.findById(investor.investor).select(
+//       "email firstName lastName"
+//     );
+
+//     await sendEmail(
+//       investorUser.email,
+//       "Farm IT - Investment Payment Link",
+//       `<p>Dear ${investorUser.firstName} ${investorUser.lastName},</p>
+//       <p>Your investment payment is ready. Please complete the payment by clicking the link below:</p>
+//       <p><a href="${paymentLink}" target="_blank">Complete Payment</a></p>
+//       <p>Thank you for your support!</p>
+//       <p>Best regards,<br>Farm IT Team</p>`
+//     );
+
+//     await Transaction.create({
+//       loan: loan._id,
+//       from: investor.investor,
+//       to: loan.farm.farmer,
+//       amount: investor.amount,
+//       type: "investment",
+//       date: new Date(),
+//     });
+
+//     loan.status = "credited";
+
+//     const repaymentSchedule = await this.generateRepaymentSchedule(
+//       loan.amount,
+//       loan.interestRate,
+//       loan.duration
+//     );
+//     loan.repaymentSchedule = repaymentSchedule;
+
+//     const farmerUserInfo = await User.findById(loan.farm.farmer).select(
+//       "email firstName lastName"
+//     );
+
+//     await sendEmail(
+//       farmerUserInfo.email,
+//       "Farm IT - Investment Credited",
+//       `<p>Dear ${farmerUserInfo.firstName} ${farmerUserInfo.lastName},</p>
+//         <p>We are happy to inform you that your investment in the loan for the farm "${loan.farm.name}" has been successfully credited 🎉 🎉.</p>
+//         <p>Thank you for your support!</p>
+//         <p>Best regards,<br>Farm IT Team</p>`
+//     );
+
+//     await sendEmail(
+//       investorUser.email,
+//       "Farm IT - Investment Debited",
+//       `<p>Dear ${investorUser.firstName} ${investorUser.lastName},</p>
+//         <p>Your investment has been debited from your account, and the loan is now fully processed.</p>
+//         <p>You will begin receiving repayment schedule notifications shortly.</p>
+//         <p>Thank you for your support!</p>
+//         <p>Best regards,<br>Farm IT Team</p>`
+//     );
+
+//     await loan.save();
+
+//     res
+//       .status(200)
+//       .json({ message: "Investment credited and debited successfully." });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// }
+
+// async generateRepaymentSchedule(amount, interestRate, duration) {
+//   const monthlyInterest = interestRate / 12 / 100;
+//   const monthlyPayment =
+//     (amount * monthlyInterest * Math.pow(1 + monthlyInterest, duration)) /
+//     (Math.pow(1 + monthlyInterest, duration) - 1);
+
+//   const schedule = [];
+//   let remainingBalance = amount;
+
+//   for (let i = 1; i <= duration; i++) {
+//     const interest = remainingBalance * monthlyInterest;
+//     const principal = monthlyPayment - interest;
+//     remainingBalance -= principal;
+
+//     schedule.push({
+//       dueDate: new Date(Date.now() + i * 30 * 24 * 60 * 60 * 1000),
+//       amount: monthlyPayment,
+//       status: "pending",
+//     });
+//   }
+
+//   return schedule;
+// }

@@ -32,28 +32,28 @@ const Navbar = ({ UserType }) => {
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Dashboard
+              🚜Dashboard
             </NavLink>
             <NavLink
               to="/my-loans"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              My-Loans
+              💰 My-Loans
             </NavLink>
             <NavLink
               to="/documents"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Upload Documents
+              📄 Upload Documents
             </NavLink>
             <NavLink
               to="/my-documents"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              MyDocuments
+              📂 MyDocuments
             </NavLink>
             <NavLink
               to="/userissues"
@@ -151,7 +151,7 @@ const Navbar = ({ UserType }) => {
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              User Documents
+               📂User Documents
             </NavLink>
             <NavLink
               to="/verifyInvestments"

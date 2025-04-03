@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { sendEmail } from "../services/emailService.js";
-import otpGenerator from "otp-generator";
+import crypto from 'crypto';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -54,37 +54,46 @@ class AuthController {
   }
 
 
+  
+
   async sendOtp(req, res) {
     try {
       const { email } = req.body;
-
+  
       let user = await User.findOne({ email });
       if (!user) {
         return res.status(400).json({ message: "User not found" });
       }
-
+  
       if (global.otpStore[email]) {
-        return res.status(400).json({ message: "OTP already sent. Please verify it." });
+        const { otp, timestamp } = global.otpStore[email];
+        const currentTime = Date.now();
+        const expiryTime = 2 * 60 * 1000; 
+  
+        if (currentTime - timestamp < expiryTime) {
+          return res.status(400).json({ message: "OTP already sent. Please verify it." });
+        }
       }
-
-      const otp = otpGenerator.generate(6, { digits: true, upperCase: false, specialChars: false });
-      global.otpStore[email] = otp;
-
+  
+      const otp = crypto.randomInt(100000, 999999).toString();
+      const timestamp = Date.now();
+      global.otpStore[email] = { otp, timestamp };
+  
       const otpMessage = `
         Farm IT - Email Verification Process
         <p>Dear <b>${user.firstName} ${user.lastName}</b>,</p>
         <p>Your OTP for Login is <strong>${otp}</strong>.</p>
-        <p>This OTP will remain valid until you verify it.</p>`;
-
+        <p>This OTP will remain valid for 2 minutes until you verify it.</p>`;
+  
       await sendEmail(email, "Your OTP for Login", otpMessage);
-
+  
       res.json({ message: "OTP sent successfully. Please check your email." });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error", error: err.message });
     }
   }
-
+  
   async login(req, res) {
     try {
       const { email, password, otp } = req.body;
@@ -119,14 +128,22 @@ class AuthController {
   
       if (otp) {
         const otpData = global.otpStore[email];
-        if (!otp || otp !== otpData) {
+        if (!otp || otp !== otpData.otp) {
           return res.status(400).json({ message: "Invalid OTP" });
         }
   
-      const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "24h" });
+        const currentTime = Date.now();
+        const expiryTime = 2 * 60 * 1000; 
   
-      delete global.otpStore[email];
-      return res.json({ token, role: user.role });
+        if (currentTime - otpData.timestamp > expiryTime) {
+          delete global.otpStore[email];
+          return res.status(400).json({ message: "OTP has expired" });
+        }
+  
+        const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "24h" });
+  
+        delete global.otpStore[email];
+        return res.json({ token, role: user.role });
       }
   
       await sendEmail(user.email);
@@ -136,8 +153,7 @@ class AuthController {
       console.error("Server error:", err);
       res.status(500).json({ message: "Server error", error: err.message });
     }
-  }
-   
+  } 
 }
 
 export default AuthController;
