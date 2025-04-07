@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { FaTractor, FaSeedling, FaHandshake, FaIndustry, FaUsers, FaRegChartBar, FaLeaf, FaBullhorn } from "react-icons/fa";
 import "./HomePage.css";
 
@@ -6,18 +5,18 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/" className="logo">Farm IT</Link>
+        <a href="#home" className="logo">Farm IT</a>
       </div>
       <ul className="navbar-links">
-        <li><span className="navbar-link">Home</span></li>
-        <li><span className="navbar-link">Features</span></li>
-        <li><span className="navbar-link">About</span></li>
-        <li><span className="navbar-link">Contact</span></li>
+        <li><a href="#home" className="navbar-link">Home</a></li>
+        <li><a href="#features" className="navbar-link">Features</a></li>
+        <li><a href="#about" className="navbar-link">About</a></li>
+        <li><a href="#contact" className="navbar-link">Contact</a></li>
         <li className="navbar-dropdown">
           <button className="navbar-link">Account</button>
           <ul className="dropdown-menu">
-            <li><Link to="/login" className="dropdown-item">Login</Link></li>
-            <li><Link to="/register" className="dropdown-item">Sign Up</Link></li>
+            <li><a href="/login" className="dropdown-item">Login</a></li>
+            <li><a href="/register" className="dropdown-item">Sign Up</a></li>
           </ul>
         </li>
       </ul>
@@ -29,11 +28,11 @@ const HomePage = () => {
   return (
     <div className="homepage">
       <Navbar />
-      <header className="header">
+      <header  className="header" id="home">
         <h1 className="title">Farm IT</h1>
         <p className="tagline">Connecting Farmers with Technology and Resources</p>
       </header>
-      <section className="features">
+      <section className="features" id="features">
         <h2 className="section-title">Our Features</h2>
         <div className="feature-cards">
           <div className="feature-card">
@@ -78,16 +77,16 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      <section className="about">
+      <section className="about" id="about">
         <h2 className="section-title">About Us</h2>
         <p>
           Farm Connect is a platform dedicated to revolutionizing the agriculture sector by bridging the gap between farmers and technology. Our goal is to help farmers increase productivity, access funding, and easily connect with buyers.
         </p>
       </section>
-      <section className="contact">
+      <section className="contact" id="contact">
         <h2 className="section-title">Get in Touch</h2>
         <p>Have questions or need support? Reach out to us anytime!</p>
-        <span to="/contact" className="cta-btn">Contact Us</span>
+        <a href="#contact" className="cta-btn">Contact Us</a>
       </section>
       <footer className="footer">
         <div className="footer-content">

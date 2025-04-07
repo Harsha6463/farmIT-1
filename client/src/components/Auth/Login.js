@@ -104,11 +104,11 @@ const Login = () => {
               </span>
             </div>
             {errors.password && <span className="error-message">This field is required</span>}
-            <button type="submit" className="authbutton">Login</button>
+            <button type="submit" className="action-button">Login</button>
           </>
         )}
         {isOtpLogin && !otpSent && (
-          <button className="authbutton" type="button" onClick={requestOtp}>Send OTP</button>
+          <button className="action-button" type="button" onClick={requestOtp}>Send OTP</button>
         )}
         {isOtpLogin && otpSent && (
           <>
@@ -121,16 +121,17 @@ const Login = () => {
               className={errors.otp ? "error" : ""}
             />
             {errors.otp && <span className="error-message">This field is required</span>}
-            <button type="submit" className="authbutton">Login with OTP</button>
+            <button type="submit" className="action-button">Login with OTP</button>
           </>
         )}
+       
+        <button className="action-button" type="button" onClick={LoginMethod}>
+          {isOtpLogin ? "Login with Password" : "Login with OTP"}
+        </button>
         <h4>
           If you haven't Registered,{" "}
           <Link to="/register" className="link">Register</Link>
         </h4>
-        <button className="authbutton" type="button" onClick={LoginMethod}>
-          {isOtpLogin ? "Login with Password" : "Login with OTP"}
-        </button>
       </form>
     </div>
   );

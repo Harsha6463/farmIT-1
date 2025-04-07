@@ -59,7 +59,7 @@ const Register = () => {
   };
 
   return (
-    <div style={{ marginTop: "100px" }} className="main-container">
+    <div style={{ marginTop: "40px" }} className="main-container">
       <form onSubmit={handleSubmit} className="form-container">
         <h1>Register</h1>
         <input
@@ -128,7 +128,7 @@ const Register = () => {
             />
           </div>
         )}
-        <button type="submit" className="authbutton">Register</button>
+        <button type="submit" className="action-button">Register</button>
         <h4>
           If you have already Registered,{" "}
           <Link to="/login" className="link">

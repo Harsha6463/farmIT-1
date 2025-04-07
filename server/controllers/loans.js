@@ -471,7 +471,7 @@ export default LoanController;
 //     schedule.push({
 //       dueDate: new Date(Date.now() + i * 30 * 24 * 60 * 60 * 1000),
 //       amount: monthlyPayment,
-//       status: "pending",
+//       status: "pending",  
 //     });
 //   }
 
