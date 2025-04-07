@@ -101,3 +101,7 @@ button.credit:disabled {
 .loan-status.rejected {
   color: #c62828;
 }
+.verify:hover{
+  background-color: rgba(41, 108, 233, 0.788);
+
+}

@@ -19,8 +19,17 @@ const InvestorTracking = () => {
     setLoading(true);
     try {
       const response = await API.get("/investments/tracking");
-      setInvestments(response.data.investments);
-      setStats(response.data.stats);
+      const allInvestments = response.data.investments;
+      const creditedInvestments = allInvestments.filter(
+        (inv) => inv.status.toLowerCase() === "credited"
+      );
+
+      setInvestments(allInvestments);
+      setStats({
+        totalInvested: response.data.stats.totalInvested,
+        totalReturns: response.data.stats.totalReturns,
+        activeInvestments: creditedInvestments.length,
+      });
     } catch (error) {
       console.error("Error fetching investment tracking data:", error);
     } finally {
@@ -83,7 +92,9 @@ const InvestorTracking = () => {
                           {new Date(investment.startDate).toLocaleDateString()}
                         </td>
                         <td>
-                          <span className={`status ${investment.status.toLowerCase()}`}>
+                          <span
+                            className={`status ${investment.status.toLowerCase()}`}
+                          >
                             {investment.status}
                           </span>
                         </td>
@@ -91,7 +102,11 @@ const InvestorTracking = () => {
                           <button
                             onClick={() => handleViewDetails(investment)}
                             className="view-details-btn1"
-                            style={{ backgroundColor: "black", color: "white", fontSize: "1.25rem" }}
+                            style={{
+                              backgroundColor: "black",
+                              color: "white",
+                              fontSize: "1.25rem",
+                            }}
                           >
                             Tracking
                           </button>
@@ -117,21 +132,27 @@ const InvestorTracking = () => {
       {isModalOpen && selectedInvestment && (
         <div className="modal-overlay">
           <div className="modal">
-            <button className="close-btn" onClick={closeModal}>X</button>
-            <h2 style={{ color: "white" }}>{selectedInvestment.farm && selectedInvestment.farm.name}</h2>
-            <p>
-              <b>Description:</b> {selectedInvestment.farm && selectedInvestment.farm.description}
+            <button className="close-btn" onClick={closeModal}>
+              X
+            </button>
+            <h2 style={{ color: "white", textAlign: "center" }}>
+              {selectedInvestment.farm && selectedInvestment.farm.name}
+            </h2>
+            <p style={{ textAlign: "center" }}>
+              <b>Description:</b>{" "}
+              {selectedInvestment.farm && selectedInvestment.farm.description}
             </p>
-            <p>
+            <p style={{ textAlign: "center" }}>
               <b>Amount Invested:</b> Rs {selectedInvestment.amount}
             </p>
-            <p>
+            <p style={{ textAlign: "center" }}>
               <b>Interest Rate:</b> {selectedInvestment.interestRate}%
             </p>
-            <p>
-              <b>Start Date:</b> {new Date(selectedInvestment.startDate).toLocaleDateString()}
+            <p style={{ textAlign: "center" }}>
+              <b>Start Date:</b>{" "}
+              {new Date(selectedInvestment.startDate).toLocaleDateString()}
             </p>
-            <p>
+            <p style={{ textAlign: "center" }}>
               <b>Status:</b> {selectedInvestment.status}
             </p>
           </div>

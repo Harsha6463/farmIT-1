@@ -90,7 +90,7 @@ const GetDocuments = () => {
                     download
                     className="download-button"
                   >
-                    Download
+                    ⬇️ download
                   </a>
                   {!doc.isVerified && (
                     <button

@@ -97,12 +97,12 @@ const AdminVerifyInvestments = () => {
                   <b>Duration:</b> {loan.duration}
                 </p>
 
-                <button
+                <button className="verify"
                   onClick={() =>
                     verifyInvestment(loan._id, loan.investors[0].investor)
                   }
                 >
-                  Verify Investment
+                  ✅ Verify Investment
                 </button>
                 <button
                   className="credit"
@@ -111,7 +111,7 @@ const AdminVerifyInvestments = () => {
                   }
                   disabled={loan.status === "credited"}
                 >
-                  Credit Investment
+                 💵 Credit Investment
                 </button>
               </div>
             ))
