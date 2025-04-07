@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../Navbar/Navbar";
 import API from "../../../API";
-import "./AdminLoansDashboard.css";
+import "./Adminlo.css";
 
 const AdminLoansDashboard = () => {
   const [loans, setLoans] = useState([]);
@@ -26,38 +26,51 @@ const AdminLoansDashboard = () => {
   return (
     <>
       <Navbar UserType={"admin"} />
-      <div className="admin-dashboard">
-        <div className="dashboard-content">
-          <h1 className="title"  style={{marginTop:"50px"}}>Admin Loans Dashboard</h1>
+      <div className="admin-loans-wrapper">
+        <div className="loans-dashboard-container">
+          <h1 className="title" style={{ marginTop: "80px" }}>
+            Admin Loans Dashboard
+          </h1>
+
           {loading ? (
-            <p className="loading-message">
+            <p className="dashboard-loading-text">
               <b>Loading loans...</b>
             </p>
           ) : loans.length > 0 ? (
-            <div className="loan-list">
-              {loans.map((loan) => (
-                <div key={loan._id} className="loan-card">
-                  <h2>Farm: {loan.farm ? loan.farm.name : "No farm name available"}</h2>
-                  <p>
-                    <b>Loan Id:</b> Rs {loan._id}
-                  </p>
-                  <p>
-                    <b>Amount:</b> Rs {loan.amount}
-                  </p>
-                  <p>
-                    <b>Interest Rate:</b> {loan.interestRate}%
-                  </p>
-                  <p>
-                    <b>Duration:</b> {loan.duration} months
-                  </p>
-                  <p>
-                    <b>Status:</b> {loan.status}
-                  </p>
-                </div>
-              ))}
+            <div className="loan-table-container">
+              <table className="loan-table">
+                <thead>
+                  <tr>
+                    <th>Farm Name</th>
+                    <th>Loan ID</th>
+                    <th>Amount</th>
+                    <th>Interest Rate</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loans.map((loan) => (
+                    <tr key={loan._id}>
+                      <td>{loan.farm ? loan.farm.name : "N/A"}</td>
+                      <td>{loan._id}</td>
+                      <td>₹ {loan.amount}</td>
+                      <td>{loan.interestRate}%</td>
+                      <td>{loan.duration} months</td>
+                      <td>
+                        <span
+                          className={`loan-status ${loan.status.toLowerCase()}`}
+                        >
+                          {loan.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           ) : (
-            <p className="no-loans">No loans found.</p>
+            <p className="dashboard-no-loans">No loans found.</p>
           )}
         </div>
       </div>

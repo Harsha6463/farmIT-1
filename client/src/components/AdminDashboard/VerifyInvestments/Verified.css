@@ -29,13 +29,15 @@
 .loan-item h3 {
   font-size: 24px;
   margin-bottom: 10px;
-  color: #333;
+  
 }
 
 .loan-item p {
-  font-size: 16px;
+  font-size: 20px;
   margin-bottom: 8px;
-  color: #666;
+  padding: 5px;
+  font-weight: 600;
+ 
 }
 
 button {
@@ -78,4 +80,24 @@ button.credit:active:not(:disabled) {
 button.credit:disabled {
   background-color: #ddd;
   cursor: not-allowed;
+}
+.loan-status {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.loan-status.credited {
+  color: #00796b;
+}
+
+.loan-status.completed {
+  color: #2e7d32;
+}
+
+.loan-status.pending {
+  color: #ef6c00;
+}
+
+.loan-status.rejected {
+  color: #c62828;
 }

@@ -43,12 +43,14 @@ h1#heading2 {
 .user-card h2 {
   font-size: 22px;
   color: #333;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  padding: 10px;
 }
 
 .user-card p {
-  font-size: 16px;
-  color: #666;
+  font-size: 20px;
+  color:black;
+  padding: 5px;
 }
 
 .view-details-btn {

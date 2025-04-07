@@ -31,27 +31,31 @@ const AdminIssuesDashboard = () => {
           <h1 className="title" style={{ marginTop: "90px" }}>
             Admin Issues Dashboard
           </h1>
+
           {loading ? (
-            <p className="loading-text">
-              <b>Loading issues...</b>
-            </p>
+            <p className="loading-text"><b>Loading issues...</b></p>
           ) : issues.length > 0 ? (
-            <div className="issues-cards-list">
-              {issues.map((issue) => (
-                <div key={issue._id} className="issue-item-card">
-                  <h2>{issue.issueTitle}</h2>
-                  <p className="admin">
-                    <b>Reported By:</b> {issue.user?.firstName} {issue.user?.lastName}
-                  </p>
-                  <p className="admin">
-                    <b>Description:</b> {issue.issueDiscription}
-                  </p>
-                  <p className="admin">
-                    <b>Reported On:</b>{" "}
-                    {new Date(issue.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              ))}
+            <div className="issues-table-container">
+              <table className="issues-table">
+                <thead>
+                  <tr>
+                    <th>Issue Title</th>
+                    <th>Description</th>
+                    <th>Reported By</th>
+                    <th>Reported On</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {issues.map((issue) => (
+                    <tr key={issue._id}>
+                      <td>{issue.issueTitle}</td>
+                      <td>{issue.issueDiscription}</td>
+                      <td>{issue.user?.firstName} {issue.user?.lastName}</td>
+                      <td>{new Date(issue.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           ) : (
             <p className="no-issue-data">No issues reported.</p>

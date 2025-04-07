@@ -17,13 +17,15 @@ import InvestorPanel from "./components/InvestorDashboard/InvestorPanel";
 import UserTransactions from "./components/UserTransactions/UserTransaction";
 import InvestorTracking from "./components/Tracking/InvestorTracking";
 import UserIssues from "./components/UserIssues/UserIssues";
-import MyLoans from "./components/Myloans/MyLoans";
+
 import Analytics from "./components/Analytics/Analytics";
 import DocumentsUpload from "./components/Documents/DocumentsUpload";
 import MyDocuments from "./components/Documents/MyDocuments";
 import UserProfile from "./components/Profile/UserProfile";
 import GetDocuments from "./components/AdminDashboard/AdminDocuments/GetDocumets";
 import AdminVerifyInvestments from "./components/AdminDashboard/VerifyInvestments/AdminVerifyInvestments";
+import MyLoan from "./components/Myloans/MyLoan";
+
 
 
 
@@ -48,7 +50,7 @@ function App() {
           <Route path="/issue/:userType" element={<Issue />} />
           <Route path="/loanRequest/:farmId" element={<LoanRequest />} />
           <Route path="/investorTracking" element={<InvestorTracking />} />
-          <Route path="/my-loans" element={<MyLoans />} />
+          <Route path="/my-loans" element={<MyLoan />} />
           <Route path="/userTransactions" element={<UserTransactions />} />
           <Route path="/Analytics" element={<Analytics />} />
           <Route path="/documents" element={<DocumentsUpload />} />

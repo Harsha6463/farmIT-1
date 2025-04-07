@@ -1,41 +1,60 @@
-.admin-issues-dashboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+.issues-table-container {
+  overflow-x: auto;
+  margin-top: 30px;
 }
 
-.issues-dashboard-content {
-  width: 80%;
-  max-width: 1200px;
-}
-
-.issues-cards-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 20px;
-}
-
-.issue-item-card {
-  background: cornsilk;
-  border: 1px solid #ddd;
+.issues-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
   border-radius: 10px;
-  padding: 15px;
-  width: 350px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.issues-table th,
+.issues-table td {
+  padding: 16px 20px;
   text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 23px;
+}
+.issues-table td:nth-child(1) {
+  color: #0e76e6;
+  font-weight: 600;
 }
 
-.issue-item-card:hover {
-  transform: scale(1.02);
+
+.issues-table th {
+  background: linear-gradient(to right, #0e76e6, #bbe8e3);
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
-.loading-text,
-.no-issue-data {
-  font-size: 18px;
-  color: #888;
-  text-align: center;
-  margin-top: 20px;
+.issues-table tbody tr:nth-child(odd) {
+  background-color: #fdfdfd;
+}
+
+.issues-table tbody tr:nth-child(even) {
+  background-color: #e8f5e9;
+}
+
+.issues-table tbody tr:hover {
+  background-color: #9ad1c4;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.issues-table td {
+  color: #333;
+}
+
+@media screen and (max-width: 768px) {
+  .issues-table th,
+  .issues-table td {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
 }

@@ -41,12 +41,13 @@ const UserIssues = () => {
                 <div key={issue._id} className="issue-card">
                   <h2>{issue.issueTitle}</h2>
                   <p>
-                    <b>Description:</b> {issue.issueDiscription}
+                    <b>Description : </b> {issue.issueDiscription}
                   </p>
                   <p>
-                    <b>Reported On:</b>{" "}
+                    <b>Reported On : </b>
                     {new Date(issue.createdAt).toLocaleDateString()}
                   </p>
+                  <p> <b>Reported By : </b>{issue.user?.firstName} {issue.user?.lastName}</p>
                 </div>
               ))}
             </div>
