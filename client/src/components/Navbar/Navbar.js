@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = ({ UserType }) => {
@@ -21,7 +20,7 @@ const Navbar = ({ UserType }) => {
     <nav className="navigation-bar">
       <div className="nav-left">
         <div style={{ fontSize: "3rem", color: "gold" }} className="brand-logo">
-          FARM IT
+        🌿FARM IT
         </div>
       </div>
       <div className="nav-center">
@@ -60,14 +59,12 @@ const Navbar = ({ UserType }) => {
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Issues
+              🚨Issues
             </NavLink>
             <NavLink
               to="/profile"
               className="nav-item"
-            >
-              <FaUserCircle size={25} />
-            </NavLink>
+            >👨‍🌾 profile</NavLink>
           </>
         )}
         {UserType === "investor" && (
@@ -77,35 +74,35 @@ const Navbar = ({ UserType }) => {
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Available Loans
+              🏦 Available Loans
             </NavLink>
             <NavLink
               to="/investorDashboard"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Dashboard
+              💰Dashboard
             </NavLink>
             <NavLink
               to="/investorTracking"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Tracking
+              📊 Tracking
             </NavLink>
             <NavLink
               to="/userissues"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Issues
+              🚨Issues
             </NavLink>
             <NavLink
               to="/Analytics"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Analytics
+              📈Analytics
             </NavLink>
           </>
         )}
@@ -116,35 +113,35 @@ const Navbar = ({ UserType }) => {
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Users
+              👥 Users
             </NavLink>
             <NavLink
               to="/adminFarmsDashboard"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Farms
+              🪴Farms
             </NavLink>
             <NavLink
               to="/adminLoansDashboard"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Loans
+              💵 Loans
             </NavLink>
             <NavLink
               to="/adminIssuesDashboard"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Issues
+              🚨Issues
             </NavLink>
             <NavLink
               to="/userTransactions"
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Transactions
+            💸Transactions
             </NavLink>
             <NavLink
               to="/userDocuments"
@@ -158,7 +155,7 @@ const Navbar = ({ UserType }) => {
               className="nav-item"
               style={({ isActive }) => activeNavLink(isActive)}
             >
-              Verification
+             ✅ Verification
             </NavLink>
           </>
         )}

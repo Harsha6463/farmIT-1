@@ -34,7 +34,7 @@ const FarmerDashboard = () => {
             🚜 Farmer Dashboard
           </h1>
           <Link to="/addFarm">
-            <button style={{position:"relative", top:"40px"}} className="add-farm-button">🌾 Add Farm Land</button>
+            <button style={{position:"relative", top:"40px",left:"100px"}} className="add-farm-button">🌾 Add Farm Land</button>
           </Link>
         </div>
 
@@ -67,7 +67,7 @@ const FarmerDashboard = () => {
       </div>
 
       <NavLink to={`/issue/farmer`}>
-          <button className="report-issue-btn"> Report an Issue?</button>
+          <button className="report-issue-btn"> ⚠️ Report an Issue?</button>
         </NavLink>
     </>
   );

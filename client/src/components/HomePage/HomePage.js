@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <a href="#home" className="logo">Farm IT</a>
+        <a href="#home" className="logo">🌿Farm IT</a>
       </div>
       <ul className="navbar-links">
         <li><a href="#home" className="navbar-link">Home</a></li>
@@ -13,7 +13,7 @@ const Navbar = () => {
         <li><a href="#about" className="navbar-link">About</a></li>
         <li><a href="#contact" className="navbar-link">Contact</a></li>
         <li className="navbar-dropdown">
-          <button className="navbar-link">Account</button>
+          <li className="account">Account</li>
           <ul className="dropdown-menu">
             <li><a href="/login" className="dropdown-item">Login</a></li>
             <li><a href="/register" className="dropdown-item">Sign Up</a></li>

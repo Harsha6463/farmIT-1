@@ -39,7 +39,7 @@ const Issue = () => {
 
   return (
     <>
-      <Navbar isInvestor={userType === "investor"} />
+      <Navbar />
       <div style={{marginTop:"200px"}} className="report-issue-container">
         <h2  className="report-issue-title">Report an Issue</h2>
         <form className="issue-report-form" onSubmit={handleSubmit}>

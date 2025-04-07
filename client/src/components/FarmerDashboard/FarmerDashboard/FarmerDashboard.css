@@ -100,26 +100,7 @@ body {
 }
 
 
-.floating-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: linear-gradient(135deg, #ff5252, #b71c1c);
-  color: white;
-  padding: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 5px 15px rgba(255, 0, 0, 0.3);
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  animation: pulse 1.5s infinite;
-}
 
-.floating-button:hover {
-  transform: scale(1.1);
-}
 
 
 @keyframes pulse {

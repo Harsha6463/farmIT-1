@@ -61,31 +61,31 @@ const Register = () => {
   return (
     <div style={{ marginTop: "40px" }} className="main-container">
       <form onSubmit={handleSubmit} className="form-container">
-        <h1>Register</h1>
+        <h1> 👤 Register</h1>
         <input
           type="text"
-          placeholder="First Name"
+          placeholder="🪪 First Name"
           value={formData.firstName}
           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
           required
         />
         <input
           type="text"
-          placeholder="Last Name"
+          placeholder="🪪 Last Name"
           value={formData.lastName}
           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
           required
         />
         <input
           type="email"
-          placeholder="Email"
+          placeholder=" ✉️ Email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder=" 🔓 Password"
           value={formData.password}
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           required
@@ -108,19 +108,19 @@ const Register = () => {
           <option value="" disabled>
             Select Role
           </option>
-          <option value="farmer">Farmer</option>
-          <option value="investor">Investor</option>
-          <option value="admin">Admin</option>
+          <option value="farmer">👨‍🌾 Farmer</option>
+          <option value="investor">💰Investor</option>
+          <option value="admin">🗂️  Admin</option>
         </select>
         <input
           type="file"
           accept="image/*"
           onChange={profile}
-          placeholder="Profile Picture (Optional)"
+          placeholder=" 📂Profile Picture (Optional)"
         />
         {formData.profilePic && (
           <div>
-            <h3>Profile Picture:</h3>
+            <h3> 📂Profile Picture:</h3>
             <img
               src={URL.createObjectURL(formData.profilePic)}
               alt="Profile Pic"
@@ -128,13 +128,11 @@ const Register = () => {
             />
           </div>
         )}
-        <button type="submit" className="action-button">Register</button>
-        <h4>
-          If you have already Registered,{" "}
-          <Link to="/login" className="link">
-            Login
-          </Link>
-        </h4>
+        <button type="submit" className="loginbuttons">Register</button>
+       <h4 style={{fontSize:"1.23rem"}}>
+                 If you don't have an account,{" "}
+                 <Link to="/login" className="link">Login</Link>
+               </h4>
       </form>
     </div>
   );

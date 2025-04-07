@@ -53,7 +53,15 @@ body {
   text-decoration: none;
   transition: color 0.3s ease;
 }
-
+.account {
+  margin: 0 20px;
+  position: relative;
+  bottom: 8px;
+  font-size: 1.2em;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
 .navbar-link:hover {
   color: #f39c12;
 }

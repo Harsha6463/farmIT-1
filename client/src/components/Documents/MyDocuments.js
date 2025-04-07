@@ -51,7 +51,7 @@ const MyDocuments = () => {
   return (
     <div className="document-container">
       <Navbar UserType="farmer" />
-      <h2>My Documents</h2>
+      <h2  className="title" style={{ marginTop: "80px" }} >My Documents</h2>
       {documents.length === 0 ? (
         <p className="no-documents">No documents uploaded.</p>
       ) : (

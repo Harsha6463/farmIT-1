@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./AddFarm.css";
 import Navbar from "../../Navbar/Navbar";
 import API from "../../../API";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import "./AddFarms.css"
 const AddFarm = () => {
   const [farmData, setFarmData] = useState({
     name: "",
@@ -15,205 +14,162 @@ const AddFarm = () => {
     productionCapacity: "",
     images: [],
   });
-  const [documents, setDocuments] = useState([]);
   const [isVerified, setIsVerified] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkDocumentStatus = async () => {
+    const fetchVerificationStatus = async () => {
       try {
         const response = await API.get("/documents/my-documents");
-        console.log(response.data);
-        setDocuments(response.data);
-
-        let verified = false;
-        response.data.forEach((document) => {
-          console.log(document.isVerified)
-          if (document.isVerified ) {
-            verified = true;
-          }
-        });
+        let verified = response.data.some((doc) => doc.isVerified);
         setIsVerified(verified);
-        console.log("Document verified:", verified);
       } catch (error) {
-        toast.error("Error fetching documents status");
-        console.error("Error fetching documents:", error);
+        toast.error("Error fetching verification status");
       }
     };
-
-    checkDocumentStatus();
+    fetchVerificationStatus();
   }, []);
 
   const handleChange = (e) => {
-    console.log("Input changed:", e.target.name, e.target.value);
     setFarmData({ ...farmData, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    console.log("Images changed:", e.target.files);
+  const handleImageUpload = (e) => {
     setFarmData({ ...farmData, images: e.target.files });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted");
-
     if (!isVerified) {
-      toast.error("You cannot add a farm until your documents are verified.");
-      console.log("Form submission blocked - Documents not verified");
+      toast.error("Document verification required to add a farm.");
       return;
     }
 
     const formData = new FormData();
-    for (const key in farmData) {
+    Object.entries(farmData).forEach(([key, value]) => {
       if (key === "images") {
-        for (let i = 0; i < farmData.images.length; i++) {
-          formData.append("images", farmData.images[i]);
-        }
+        Array.from(value).forEach((file) => formData.append("images", file));
       } else {
-        formData.append(key, farmData[key]);
+        formData.append(key, value);
       }
-    }
+    });
 
     try {
-      console.log("Sending farm data:", formData);
       await API.post("/farms/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
       toast.success("Farm added successfully!");
-      console.log("Farm added successfully!");
       navigate("/farmerDashboard");
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Error during adding farm land"
-      );
-      console.error("Error during farm addition:", error);
+      toast.error(error.response?.data?.message || "Failed to add farm.");
     }
   };
 
   return (
     <>
-      <Navbar UserType={"farmer"} />
-      <div style={{ marginTop: "100px" }} className="card">
-        <div className="card-image">
-          <div className="card-heading">
-            Add Farm Land
-            <small>Add farm details below</small>
+      <Navbar UserType="farmer" />
+      <div className="form-wrapper">
+        <div className="form-header">
+          <h2 className="form-title"> 🌾Register Your Farm</h2>
+          <p style={{fontSize:"1.25rem"}}>Fill out the form to add your farm details</p>
+        </div>
+
+        <form className="form-body" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="form-label">Farm Name :</label>
+            <input
+              type="text"
+              name="name"
+              className="form-input"
+              value={farmData.name}
+              onChange={handleChange}
+              required
+            />
           </div>
-        </div>
 
-        <div className="card-form">
-          <form onSubmit={handleSubmit}>
-            <div className="input">
-              <input
-                type="text"
-                name="name"
-                className="input-field"
-                value={farmData.name}
-                onChange={handleChange}
-                required
-              />
-              <label className="input-label">Farm Name</label>
-            </div>
+          <div className="form-group">
+            <label className="form-label">Description :</label>
+            <textarea
+              name="description"
+              className="form-textarea"
+              value={farmData.description}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-            <div className="input">
-              <textarea
-                name="description"
-                className="input-field"
-                value={farmData.description}
-                onChange={handleChange}
-                required
-              />
-              <label className="input-label">Description</label>
-            </div>
+          <div className="form-group">
+            <label className="form-label">Location :</label>
+            <input
+              type="text"
+              name="location"
+              className="form-input"
+              value={farmData.location}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-            <div className="input">
-              <input
-                type="text"
-                name="location"
-                className="input-field"
-                value={farmData.location}
-                onChange={handleChange}
-                required
-              />
-              <label className="input-label">Location</label>
-            </div>
+          <div className="form-group">
+            <label className="form-label">Farm Type :</label>
+            <input
+              type="text"
+              name="farmType"
+              className="form-input"
+              value={farmData.farmType}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-            <div className="input">
-              <input
-                type="text"
-                name="farmType"
-                className="input-field"
-                value={farmData.farmType}
-                onChange={handleChange}
-                required
-              />
-              <label className="input-label">Farm Type</label>
-            </div>
+          <div className="form-group">
+            <label className="form-label">Size : (in acres)</label>
+            <input
+              type="number"
+              name="size"
+              className="form-input"
+              value={farmData.size}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-            <div className="input">
-              <input
-                type="number"
-                name="size"
-                className="input-field"
-                value={farmData.size}
-                onChange={handleChange}
-                required
-              />
-              <label className="input-label">Size</label>
-            </div>
+          <div className="form-group">
+            <label className="form-label">Production Capacity :</label>
+            <input
+              type="text"
+              name="productionCapacity"
+              className="form-input"
+              value={farmData.productionCapacity}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-            <div className="input">
-              <input
-                type="text"
-                name="productionCapacity"
-                className="input-field"
-                value={farmData.productionCapacity}
-                onChange={handleChange}
-                required
-              />
-              <label className="input-label">Production Capacity</label>
-            </div>
+          <div className="form-group">
+            <label className="form-label">Upload Farm Images :</label>
+            <input
+              type="file"
+              name="images"
+              className="form-input"
+              multiple
+              onChange={handleImageUpload}
+            />
+          </div>
 
-            <div className="input">
-              <input
-                type="file"
-                name="images"
-                className="input-field"
-                multiple
-                onChange={handleImageChange}
-              />
-              <label className="input-label">Farm Images</label>
-            </div>
+          <div className="form-action">
+            <button
+              type="submit"
+              className="submitbutton"
+              disabled={!isVerified}
+            >
+              Submit Farm Details
+            </button>
+          </div>
+        </form>
 
-            <div className="action">
-              <button  type="submit" className="action-button" disabled={!isVerified}>
-                Add Farm
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div className="card-info">
-          <p>Upload your farm's images and details above.</p>
-        </div>
-
-        <div className="documents-status">
-          <h3>Documents Status</h3>
-          {documents.length === 0 ? (
-            <p>No documents found.</p>
-          ) : (
-            documents.map((document) => (
-              <div key={document._id}>
-                <p>{document.title}</p>
-                <span status style={{ color: document.isVerified ? "green" : "red" }}>
-                      {document.isVerified ? "Verified" : "Not Verified"}
-                    </span>
-              </div>
-            ))
-          )}
+        <div className="form-footer">
+          <p style={{fontSize:"1.25rem"}}>Ensure your documents are verified before submitting the farm details.</p>
         </div>
       </div>
     </>

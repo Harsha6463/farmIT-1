@@ -76,10 +76,10 @@ const Login = () => {
   return (
     <div style={{ marginTop: "100px" }} className="main-container">
       <form onSubmit={handleSubmit} className="form-container">
-        <h1>Login</h1>
-        <input
+        <h1>🔑 Login</h1>
+        <input 
           type="email"
-          placeholder="Email"
+          placeholder="  ✉️ Email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
@@ -93,7 +93,7 @@ const Login = () => {
               <input
                 style={{ width: "350px" }}
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                placeholder="🔓 Password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
@@ -104,11 +104,11 @@ const Login = () => {
               </span>
             </div>
             {errors.password && <span className="error-message">This field is required</span>}
-            <button type="submit" className="action-button">Login</button>
+            <button type="submit"  className="loginbuttons">🔓  Login</button>
           </>
         )}
         {isOtpLogin && !otpSent && (
-          <button className="action-button" type="button" onClick={requestOtp}>Send OTP</button>
+          <button className="loginbuttons" type="button" onClick={requestOtp}>🔢 Send OTP</button>
         )}
         {isOtpLogin && otpSent && (
           <>
@@ -121,15 +121,15 @@ const Login = () => {
               className={errors.otp ? "error" : ""}
             />
             {errors.otp && <span className="error-message">This field is required</span>}
-            <button type="submit" className="action-button">Login with OTP</button>
+            <button type="submit" className="loginbuttons"> Login with OTP</button>
           </>
         )}
        
-        <button className="action-button" type="button" onClick={LoginMethod}>
-          {isOtpLogin ? "Login with Password" : "Login with OTP"}
+        <button className="loginbuttons" type="button" onClick={LoginMethod}>
+          {isOtpLogin ? "🔓 Login with Password" : "📱Login with OTP"}
         </button>
-        <h4>
-          If you haven't Registered,{" "}
+        <h4 style={{fontSize:"1.23rem"}}>
+          If you don't have an account,{" "}
           <Link to="/register" className="link">Register</Link>
         </h4>
       </form>
