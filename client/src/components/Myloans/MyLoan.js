@@ -95,9 +95,9 @@ const MyLoan = () => {
           <p className="my-loans-empty">No loans found.</p>
         )}
 
-        <NavLink to="/issue/farmer">
-          <button className="my-loans-report-btn">Report an Issue?</button>
-        </NavLink>
+         <NavLink to={`/issue/farmer`}>
+                  <button className="report-issue-btn"> ⚠️ Report an Issue?</button>
+                </NavLink>
 
         {selectedLoan && (
           <div className="my-loans-modal-overlay">

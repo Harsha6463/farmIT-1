@@ -21,7 +21,8 @@ const Register = () => {
   const navigate = useNavigate();
 
   const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +37,9 @@ const Register = () => {
       !formData.mobileNumber ||
       !formData.profilePic
     ) {
-      toast.error("Please fill in all required fields, including a profile picture!");
+      toast.error(
+        "Please fill in all required fields, including a profile picture!"
+      );
       return;
     }
 
@@ -46,7 +49,9 @@ const Register = () => {
     }
 
     if (!passwordRegex.test(formData.password)) {
-      toast.error("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.");
+      toast.error(
+        "Password must be at least 8 characters and include uppercase, lowercase, number, and special character."
+      );
       return;
     }
 
@@ -67,81 +72,132 @@ const Register = () => {
   };
 
   const getBorderClass = (fieldValue) => {
-    return submitted && !fieldValue ? "border-danger" : "";
+    if (!submitted) return "";
+    return fieldValue?.toString().trim() ? "border-success" : "border-danger";
   };
 
   return (
-    <div className="container-fluid py-5" style={{ backgroundColor: "transparent", minHeight: "100vh" }}>
+    <div
+      className="container-fluid py-5"
+      style={{ backgroundColor: "transparent", minHeight: "100vh" }}
+    >
       <div className="d-flex justify-content-center">
-        <div className="card p-4 shadow" style={{ maxWidth: "600px", width: "100%", backgroundColor: "#e6f0ff" }}>
+        <div
+          className="card p-4 shadow"
+          style={{
+            maxWidth: "600px",
+            width: "100%",
+            backgroundColor: "#e6f0ff",
+          }}
+        >
           <h2 className="mb-4 text-center">👤 Register</h2>
           <form onSubmit={handleSubmit}>
             <div className="row mb-3">
               <div className="col">
-                <label className="form-label text-start w-100">First Name <span className="text-danger">*</span></label>
+                <label className="form-label text-start w-100 fw-bold text-black fs-5">
+                  First Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
-                  className={`form-control form-control-lg ${getBorderClass(formData.firstName)}`}
+                  className={`form-control form-control-lg ${getBorderClass(
+                    formData.firstName
+                  )}`}
                   placeholder="👤 First Name"
                   value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, firstName: e.target.value })
+                  }
                 />
               </div>
               <div className="col">
-                <label className="form-label text-start w-100">Last Name <span className="text-danger">*</span></label>
+                <label className="form-label text-start w-100 fw-bold text-black fs-5">
+                  Last Name <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
-                  className={`form-control form-control-lg ${getBorderClass(formData.lastName)}`}
+                  className={`form-control form-control-lg ${getBorderClass(
+                    formData.lastName
+                  )}`}
                   placeholder="👤 Last Name"
                   value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, lastName: e.target.value })
+                  }
                 />
               </div>
             </div>
 
             <div className="mb-3">
-              <label className="form-label text-start w-100">Email <span className="text-danger">*</span></label>
+              <label className="form-label text-start w-100 fw-bold text-black fs-5">
+                Email <span className="text-danger">*</span>
+              </label>
               <input
                 type="email"
-                className={`form-control form-control-lg ${getBorderClass(formData.email)}`}
+                className={`form-control form-control-lg ${getBorderClass(
+                  formData.email
+                )}`}
                 placeholder="📧 example@email.com"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
 
             <div className="mb-3">
-              <label className="form-label text-start w-100">Password <span className="text-danger">*</span></label>
+              <label className="form-label text-start w-100 fw-bold text-black fs-5">
+                Password <span className="text-danger">*</span>
+              </label>
               <input
                 type="password"
-                className={`form-control form-control-lg ${getBorderClass(formData.password)}`}
+                className={`form-control form-control-lg ${getBorderClass(
+                  formData.password
+                )}`}
                 placeholder="🔒 Strong Password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
               />
             </div>
 
             <div className="mb-3">
-              <label className="form-label text-start w-100">Mobile Number <span className="text-danger">*</span></label>
+              <label className="form-label text-start w-100 fw-bold text-black fs-5">
+                Mobile Number <span className="text-danger">*</span>
+              </label>
               <PhoneInput
                 country="in"
                 value={formData.mobileNumber}
-                onChange={(phone) => setFormData({ ...formData, mobileNumber: phone })}
-                inputProps={{ name: "mobile" }}
+                onChange={(phone) =>
+                  setFormData({ ...formData, mobileNumber: phone })
+                }
+                inputProps={{
+                  name: "mobile",
+                }}
                 containerClass="w-100"
-                inputClass={`form-control form-control-lg custom-phone-input ${getBorderClass(formData.mobileNumber)}`}
+                inputClass={`form-control form-control-lg custom-phone-input ${getBorderClass(
+                  formData.mobileNumber
+                )}`}
                 buttonClass="custom-phone-button"
               />
             </div>
 
             <div className="mb-3">
-              <label className="form-label text-start w-100">Role <span className="text-danger">*</span></label>
+              <label className="form-label text-start w-100 fw-bold text-black fs-5">
+                Role <span className="text-danger">*</span>
+              </label>
               <select
-                className={`form-select form-select-lg ${getBorderClass(formData.role)}`}
+                className={`form-select form-select-lg ${getBorderClass(
+                  formData.role
+                )}`}
                 value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, role: e.target.value })
+                }
               >
-                <option value="" disabled>🎭 Select Role</option>
+                <option value="" disabled>
+                  🎭 Select Role
+                </option>
                 <option value="farmer">👨‍🌾 Farmer</option>
                 <option value="investor">💰 Investor</option>
                 <option value="admin">🗂️ Admin</option>
@@ -149,12 +205,16 @@ const Register = () => {
             </div>
 
             <div className="mb-3">
-              <label className="form-label text-start w-100">Profile Picture <span className="text-danger">*</span></label>
+              <label className="form-label text-start w-100 fw-bold text-black fs-5">
+                Profile Picture <span className="text-danger">*</span>
+              </label>
               <input
                 type="file"
-                className={`form-control form-control-lg ${submitted && !formData.profilePic ? "border-danger" : ""}`}
+                className="form-control form-control-lg"
                 accept="image/*"
-                onChange={(e) => setFormData({ ...formData, profilePic: e.target.files[0] })}
+                onChange={(e) =>
+                  setFormData({ ...formData, profilePic: e.target.files[0] })
+                }
               />
             </div>
 
@@ -163,18 +223,26 @@ const Register = () => {
                 <img
                   src={URL.createObjectURL(formData.profilePic)}
                   alt="Preview"
-                  style={{ width: "100px", height: "100px", borderRadius: "10px" }}
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    borderRadius: "10px",
+                  }}
                 />
               </div>
             )}
 
             <div className="d-grid mb-3">
-              <button type="submit" className="btn btn-primary btn-lg">Register</button>
+              <button type="submit" className="btn btn-primary btn-lg">
+                Register
+              </button>
             </div>
 
             <p className="text-center fs-5">
               Already have an account?{" "}
-              <Link to="/login" className="fw-bold">Login</Link>
+              <Link to="/login" className="fw-bold">
+                Login
+              </Link>
             </p>
           </form>
         </div>
@@ -213,7 +281,7 @@ const Register = () => {
         .react-tel-input .form-control {
           margin: 0;
         }
-        `}
+      `}
       </style>
     </div>
   );

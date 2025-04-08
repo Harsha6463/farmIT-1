@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./InvestorDashboard.css";
-import { Link } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import API from "../../API";
 
@@ -82,9 +82,9 @@ const InvestorPanel = () => {
             <p className="no-investments-found">No investments found.</p>
           )}
         </div>
-        <Link to={`/issue/investor`}>
-          <button className="report-issue-btn">Report an Issue</button>
-        </Link>
+        <NavLink to={`/issue/farmer`}>
+          <button className="report-issue-btn"> ⚠️ Report an Issue?</button>
+        </NavLink>
       </div>
 
       {showPopup && (

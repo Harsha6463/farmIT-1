@@ -28,7 +28,7 @@ const AdminIssuesDashboard = () => {
       <Navbar UserType={"admin"} />
       <div className="admin-issues-dashboard">
         <div className="issues-dashboard-content">
-          <h1 className="title" style={{ marginTop: "90px" }}>
+          <h1 className="title" style={{ marginTop: "100px" }}>
             Admin Issues Dashboard
           </h1>
 

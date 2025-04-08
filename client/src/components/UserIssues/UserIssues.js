@@ -56,9 +56,9 @@ const UserIssues = () => {
           )}
         </div>
       </div>
-      <NavLink to={`/issue/investor`}>
-        <button className="report-issue-btn">Report an Issue</button>
-      </NavLink>
+       <NavLink to={`/issue/farmer`}>
+                <button className="report-issue-btn"> ⚠️ Report an Issue?</button>
+              </NavLink>
     </>
   );
 };

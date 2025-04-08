@@ -27,20 +27,26 @@ const LoanRequest = () => {
         ...loanData,
       });
 
-      toast.success(" Loan request submitted successfully!");
+      toast.success("Loan request submitted successfully!");
       navigate("/farmerDashboard");
     } catch (error) {
       toast.error(
-        error.response?.data?.message || " Error submitting loan request"
+        error.response?.data?.message || "Error submitting loan request"
       );
     }
   };
 
   return (
     <>
-     
-      <div className="container-fluid py-5" style={{ backgroundColor: "transparent", minHeight: "100vh", marginTop: "100px" }}>
-      <Navbar UserType="farmer" />
+      <div
+        className="container-fluid py-5"
+        style={{
+          backgroundColor: "transparent",
+          minHeight: "100vh",
+          marginTop: "100px",
+        }}
+      >
+        <Navbar UserType="farmer" />
         <div className="d-flex justify-content-center">
           <div
             className="card p-4 shadow"
@@ -53,7 +59,7 @@ const LoanRequest = () => {
             <h2 className="mb-4 text-center">💸 Request a Loan</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label className="form-label text-start w-100">
+                <label className="form-label fw-bold fs-5 text-black text-start w-100">
                   Loan Amount 💵 <span className="text-danger">*</span>
                 </label>
                 <input
@@ -68,7 +74,7 @@ const LoanRequest = () => {
               </div>
 
               <div className="mb-3">
-                <label className="form-label text-start w-100">
+                <label className="form-label fw-bold fs-5 text-black text-start w-100">
                   Interest Rate (%) 📊 <span className="text-danger">*</span>
                 </label>
                 <input
@@ -83,7 +89,7 @@ const LoanRequest = () => {
               </div>
 
               <div className="mb-3">
-                <label className="form-label text-start w-100">
+                <label className="form-label fw-bold fs-5 text-black text-start w-100">
                   Duration (months) 🗓️ <span className="text-danger">*</span>
                 </label>
                 <input

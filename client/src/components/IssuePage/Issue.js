@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../../API";
 import { toast } from "react-toastify";
-import Navbar from "../Navbar/Navbar";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Issue = () => {
   const { userType } = useParams();
@@ -40,12 +39,20 @@ const Issue = () => {
   return (
     <>
       <div className="container py-5">
-      <Navbar UserType={userType} />
-        <div className="card p-4 shadow" style={{ backgroundColor: "#e6f0ff", maxWidth: "800px", margin: "auto" }}>
-          <h2 className="text-center mb-4">📝 Report an Issue</h2>
+        <div
+          className="card p-4 shadow"
+          style={{
+            backgroundColor: "#e6f0ff",
+            maxWidth: "800px",
+            margin: "auto",
+          }}
+        >
+          <h2 className="text-center mb-4  fw-bold">
+            📝 Report an Issue
+          </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label className="form-label text-start w-100">
+              <label className="form-label fw-bold text-black text-start w-100">
                 Issue Title <span className="text-danger">*</span> 📌
               </label>
               <input
@@ -59,7 +66,7 @@ const Issue = () => {
               />
             </div>
             <div className="mb-3">
-              <label className="form-label text-start w-100">
+              <label className="form-label fw-bold text-black text-start w-100">
                 Issue Description <span className="text-danger">*</span> 📝
               </label>
               <textarea

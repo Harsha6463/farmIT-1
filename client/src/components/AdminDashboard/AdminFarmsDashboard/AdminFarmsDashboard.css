@@ -1,6 +1,6 @@
 .farm-cards-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   padding: 30px;
   margin-top: 50px;
@@ -32,14 +32,14 @@
 
 .farm-item-card h3 {
   font-size: 26px;
-  color: #000;  
+  color: #000;
   font-weight: 600;
   margin-bottom: 15px;
 }
 
 .farm-item-card p {
   font-size: 19px;
-  color: #000;  
+  color: #000;
   margin-bottom: 15px;
 }
 
@@ -66,26 +66,20 @@
   margin-top: 40px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .farm-cards-list {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  }
-
-  .farm-item-card {
-    padding: 18px;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 900px) {
+  .farm-cards-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
   .farm-cards-list {
     grid-template-columns: 1fr;
-  }
-
-  .farm-item-card {
-    padding: 15px;
-  }
-
-  .farm-card-image {
-    height: 180px;
   }
 }

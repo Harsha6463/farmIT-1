@@ -25,7 +25,6 @@ const DocumentUpload = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Get token from localStorage
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("Please log in first. 🔐");
@@ -53,8 +52,11 @@ const DocumentUpload = () => {
   };
 
   return (
-    <div className="container-fluid py-5" style={{ backgroundColor: "transparent", minHeight: "100vh",marginTop:"100px" }}>
-        <Navbar UserType="farmer" />
+    <div
+      className="container-fluid py-5"
+      style={{ backgroundColor: "transparent", minHeight: "100vh", marginTop: "100px" }}
+    >
+      <Navbar UserType="farmer" />
       <div className="d-flex justify-content-center">
         <div
           className="card p-4 shadow"
@@ -67,13 +69,13 @@ const DocumentUpload = () => {
           <h2 className="mb-4 text-center">📂 Upload Document</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label className="form-label text-start w-100">
-                Document Title <span className="text-danger">*</span> 📑
+              <label className="form-label fw-bold fs-5 text-black text-start w-100">
+                Document Title 📑 <span className="text-danger">*</span>
               </label>
               <input
                 type="text"
                 className="form-control form-control-lg"
-                placeholder="📝 Document Title"
+                placeholder="📝 Enter document title"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
@@ -82,8 +84,8 @@ const DocumentUpload = () => {
             </div>
 
             <div className="mb-3">
-              <label className="form-label text-start w-100">
-                Document Type <span className="text-danger">*</span> 📂
+              <label className="form-label fw-bold fs-5 text-black text-start w-100">
+                Document Type 📂 <span className="text-danger">*</span>
               </label>
               <select
                 className="form-select form-select-lg"
@@ -100,8 +102,8 @@ const DocumentUpload = () => {
             </div>
 
             <div className="mb-3">
-              <label className="form-label text-start w-100">
-                Choose File <span className="text-danger">*</span> 📁
+              <label className="form-label fw-bold fs-5 text-black text-start w-100">
+                Choose File 📁 <span className="text-danger">*</span>
               </label>
               <input
                 type="file"
@@ -110,7 +112,9 @@ const DocumentUpload = () => {
                 onChange={handleChange}
                 required
               />
-              {formData.file && <p className="mt-2">Selected file: {formData.file.name}</p>}
+              {formData.file && (
+                <p className="mt-2">Selected file: {formData.file.name}</p>
+              )}
             </div>
 
             <div className="d-grid mb-3">
@@ -120,7 +124,8 @@ const DocumentUpload = () => {
             </div>
 
             <p className="text-center fs-5">
-              View Your document? click here <Link to="/my-documents" className="fw-bold no-underline">
+              View your documents? Click here{" "}
+              <Link to="/my-documents" className="fw-bold text-black text-decoration-none">
                 My Documents 📁
               </Link>
             </p>

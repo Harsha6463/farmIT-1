@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./InvestorFeed.css";
-import { Link } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import API from "../../API";
 import { useNavigate } from "react-router-dom";
@@ -120,9 +120,9 @@ const InvestorFeed = () => {
             )}
           </div>
         )}
-        <Link to={`/issue/investor`}>
-          <button className="report-issue-btn">Issue?</button>
-        </Link>
+         <NavLink to={`/issue/farmer`}>
+          <button className="report-issue-btn"> ⚠️ Report an Issue?</button>
+        </NavLink>
 
         {popupOpen && selectedLoan && (
           <div className="popup-overlay">

@@ -64,12 +64,12 @@ const Login = () => {
           otp: finalOtp,
         });
         localStorage.setItem("token", data.token);
-        toast.success(" Login successful!");
+        toast.success("Login successful!");
         navigateToDashboard(data.role);
       } else {
         const { data } = await API.post("/auth/login", formData);
         localStorage.setItem("token", data.token);
-        toast.success(" Login successful!");
+        toast.success("Login successful!");
         navigateToDashboard(data.role);
       }
     } catch (err) {
@@ -93,7 +93,7 @@ const Login = () => {
         <h3 className="text-center mb-4">🔐 Login</h3>
         <form onSubmit={handleSubmit} noValidate>
           <div className="mb-3 text-start">
-            <label className="form-label fw-semibold">
+            <label className="form-label fw-semibold text-black">
               Email <span className="text-danger">*</span>
             </label>
             <div className="position-relative">
@@ -120,7 +120,7 @@ const Login = () => {
 
           {!isOtpLogin && (
             <div className="mb-3 text-start">
-              <label className="form-label fw-semibold">
+              <label className="form-label fw-semibold text-black">
                 Password <span className="text-danger">*</span>
               </label>
               <div className="position-relative">
@@ -161,7 +161,7 @@ const Login = () => {
 
           {isOtpLogin && otpSent && (
             <div className="mb-3 text-start">
-              <label className="form-label fw-semibold">
+              <label className="form-label fw-semibold text-black">
                 Enter OTP <span className="text-danger">*</span>
               </label>
               <div className="d-flex justify-content-between">

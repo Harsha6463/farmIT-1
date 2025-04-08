@@ -83,13 +83,19 @@ const AddFarm = () => {
   };
 
   return (
-    <div className="container-fluid py-5" style={{ backgroundColor: "transparent", minHeight: "100vh", marginTop: "80px" }}>
+    <div
+      className="container-fluid py-5"
+      style={{ backgroundColor: "transparent", minHeight: "100vh", marginTop: "80px" }}
+    >
       <Navbar UserType="farmer" />
       <div className="d-flex justify-content-center">
-        <div className="card p-4 shadow" style={{ maxWidth: "700px", width: "100%", backgroundColor: "#e6f0ff" }}>
+        <div
+          className="card p-4 shadow"
+          style={{ maxWidth: "700px", width: "100%", backgroundColor: "#e6f0ff" }}
+        >
           <h2 className="mb-4 text-center">🌾 Register Your Farm</h2>
           <form onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
-            {[ 
+            {[
               { name: "name", label: "Farm Name 🌻" },
               { name: "description", label: "Description 📝", isTextArea: true },
               { name: "location", label: "Location 📍" },
@@ -98,7 +104,9 @@ const AddFarm = () => {
               { name: "productionCapacity", label: "Production Capacity 🛠️" },
             ].map(({ name, label, isTextArea, type }) => (
               <div key={name} className="mb-3">
-                <label className="form-label text-start w-100">{label} <span className="text-danger">*</span></label>
+                <label className="form-label text-start w-100 fs-5 fw-bold text-black">
+                  {label} <span className="text-danger">*</span>
+                </label>
                 <div className="position-relative">
                   {isTextArea ? (
                     <textarea
@@ -136,7 +144,7 @@ const AddFarm = () => {
             ))}
 
             <div className="mb-4">
-              <label className="form-label text-start w-100">
+              <label className="form-label text-start w-100 fs-5 fw-bold text-black">
                 Upload Farm Images 📸 <span className="text-danger">*</span>
               </label>
               <div className="position-relative">
