@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import API from "../../API";
 import { toast } from "react-toastify";
 import Navbar from "../Navbar/Navbar";
-import "./Issue.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Issue = () => {
   const { userType } = useParams();
@@ -26,44 +26,58 @@ const Issue = () => {
         ...issueData,
         userId,
       });
-      console.log(response)
-      toast.success("Issue submitted successfully!");
+      console.log(response);
+      toast.success("Issue submitted successfully! 📝");
       if (userType === "investor") navigate("/investorDashboard");
       else if (userType === "farmer") navigate("/farmerDashboard");
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Error submitting the issue"
+        error.response?.data?.message || "Error submitting the issue ⚠️"
       );
     }
   };
 
   return (
     <>
-      <Navbar />
-      <div style={{marginTop:"200px"}} className="report-issue-container">
-        <h2  className="report-issue-title">Report an Issue</h2>
-        <form className="issue-report-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="issueTitle"
-            placeholder="Issue Title"
-            value={issueData.issueTitle}
-            onChange={handleChange}
-            required
-            className="issue-title-input"
-          />
-          <textarea
-            name="issueDiscription"
-            placeholder="Describe your issue"
-            value={issueData.issueDiscription}
-            onChange={handleChange}
-            required
-            className="issue-description-textarea"
-          />
-          <button type="submit" className="submit-issue-button">
-            Submit Issue
-          </button>
-        </form>
+      <div className="container py-5">
+      <Navbar UserType="farmer" />
+        <div className="card p-4 shadow" style={{ backgroundColor: "#e6f0ff", maxWidth: "800px", margin: "auto" }}>
+          <h2 className="text-center mb-4">📝 Report an Issue</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label text-start w-100">
+                Issue Title <span className="text-danger">*</span> 📌
+              </label>
+              <input
+                type="text"
+                name="issueTitle"
+                className="form-control form-control-lg"
+                placeholder="Title of your issue"
+                value={issueData.issueTitle}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label text-start w-100">
+                Issue Description <span className="text-danger">*</span> 📝
+              </label>
+              <textarea
+                name="issueDiscription"
+                className="form-control form-control-lg"
+                placeholder="Describe the issue in detail"
+                value={issueData.issueDiscription}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="d-grid mb-3">
+              <button type="submit" className="btn btn-primary btn-lg">
+                Submit Issue 🚨
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

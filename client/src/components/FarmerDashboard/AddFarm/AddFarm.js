@@ -3,7 +3,8 @@ import Navbar from "../../Navbar/Navbar";
 import API from "../../../API";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "./AddFarms.css"
+import { MdErrorOutline } from "react-icons/md";
+
 const AddFarm = () => {
   const [farmData, setFarmData] = useState({
     name: "",
@@ -14,6 +15,8 @@ const AddFarm = () => {
     productionCapacity: "",
     images: [],
   });
+
+  const [errors, setErrors] = useState({});
   const [isVerified, setIsVerified] = useState(false);
   const navigate = useNavigate();
 
@@ -21,9 +24,9 @@ const AddFarm = () => {
     const fetchVerificationStatus = async () => {
       try {
         const response = await API.get("/documents/my-documents");
-        let verified = response.data.some((doc) => doc.isVerified);
+        const verified = response.data.some((doc) => doc.isVerified);
         setIsVerified(verified);
-      } catch (error) {
+      } catch {
         toast.error("Error fetching verification status");
       }
     };
@@ -38,141 +41,142 @@ const AddFarm = () => {
     setFarmData({ ...farmData, images: e.target.files });
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    Object.entries(farmData).forEach(([key, value]) => {
+      if (key !== "images" && !value.trim()) newErrors[key] = true;
+    });
+    if (farmData.images.length === 0) newErrors.images = true;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isVerified) {
-      toast.error("Document verification required to add a farm.");
+      toast.error("🔒 Document verification required to add a farm.");
       return;
     }
 
-    const formData = new FormData();
+    if (!validateForm()) return;
+
+    const formDataToSend = new FormData();
     Object.entries(farmData).forEach(([key, value]) => {
       if (key === "images") {
-        Array.from(value).forEach((file) => formData.append("images", file));
+        Array.from(value).forEach((file) =>
+          formDataToSend.append("images", file)
+        );
       } else {
-        formData.append(key, value);
+        formDataToSend.append(key, value);
       }
     });
 
     try {
-      await API.post("/farms/", formData, {
+      await API.post("/farms/", formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      toast.success("Farm added successfully!");
+      toast.success("🌱 Farm added successfully!");
       navigate("/farmerDashboard");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to add farm.");
+      toast.error(error.response?.data?.message || " Failed to add farm.");
     }
   };
 
   return (
-    <>
+    <div className="container-fluid py-5" style={{ backgroundColor: "transparent", minHeight: "100vh", marginTop: "30px" }}>
       <Navbar UserType="farmer" />
-      <div className="form-wrapper">
-        <div className="form-header">
-          <h2 className="form-title"> 🌾Register Your Farm</h2>
-          <p style={{fontSize:"1.25rem"}}>Fill out the form to add your farm details</p>
-        </div>
+      <div className="d-flex justify-content-center">
+        <div className="card p-4 shadow" style={{ maxWidth: "700px", width: "100%", backgroundColor: "#e6f0ff" }}>
+          <h2 className="mb-4 text-center">🌾 Register Your Farm</h2>
+          <form onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
+            {[ 
+              { name: "name", label: "Farm Name 🌻" },
+              { name: "description", label: "Description 📝", isTextArea: true },
+              { name: "location", label: "Location 📍" },
+              { name: "farmType", label: "Farm Type 🌱" },
+              { name: "size", label: "Size (in acres) 🌾", type: "number" },
+              { name: "productionCapacity", label: "Production Capacity 🛠️" },
+            ].map(({ name, label, isTextArea, type }) => (
+              <div key={name} className="mb-3">
+                <label className="form-label text-start w-100">{label} <span className="text-danger">*</span></label>
+                <div className="position-relative">
+                  {isTextArea ? (
+                    <textarea
+                      name={name}
+                      className={`form-control pe-5 py-3 ${errors[name] ? "border-danger" : farmData[name] ? "border-success" : ""}`}
+                      value={farmData[name]}
+                      onChange={handleChange}
+                      rows={3}
+                      style={{ resize: "none" }}
+                    />
+                  ) : (
+                    <input
+                      type={type || "text"}
+                      name={name}
+                      className={`form-control pe-5 py-3 ${errors[name] ? "border-danger" : farmData[name] ? "border-success" : ""}`}
+                      value={farmData[name]}
+                      onChange={handleChange}
+                    />
+                  )}
+                  {errors[name] && (
+                    <MdErrorOutline
+                      className="position-absolute"
+                      style={{
+                        right: "12px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        color: "red",
+                        pointerEvents: "none",
+                      }}
+                      size={22}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
 
-        <form className="form-body" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">Farm Name :</label>
-            <input
-              type="text"
-              name="name"
-              className="form-input"
-              value={farmData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
+            <div className="mb-4">
+              <label className="form-label text-start w-100">
+                Upload Farm Images 📸 <span className="text-danger">*</span>
+              </label>
+              <div className="position-relative">
+                <input
+                  type="file"
+                  name="images"
+                  className={`form-control pe-5 py-3 ${errors.images ? "border-danger" : farmData.images.length > 0 ? "border-success" : ""}`}
+                  multiple
+                  onChange={handleImageUpload}
+                />
+                {errors.images && (
+                  <MdErrorOutline
+                    className="position-absolute"
+                    style={{
+                      right: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      color: "red",
+                      pointerEvents: "none",
+                    }}
+                    size={22}
+                  />
+                )}
+              </div>
+            </div>
 
-          <div className="form-group">
-            <label className="form-label">Description :</label>
-            <textarea
-              name="description"
-              className="form-textarea"
-              value={farmData.description}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Location :</label>
-            <input
-              type="text"
-              name="location"
-              className="form-input"
-              value={farmData.location}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Farm Type :</label>
-            <input
-              type="text"
-              name="farmType"
-              className="form-input"
-              value={farmData.farmType}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Size : (in acres)</label>
-            <input
-              type="number"
-              name="size"
-              className="form-input"
-              value={farmData.size}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Production Capacity :</label>
-            <input
-              type="text"
-              name="productionCapacity"
-              className="form-input"
-              value={farmData.productionCapacity}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Upload Farm Images :</label>
-            <input
-              type="file"
-              name="images"
-              className="form-input"
-              multiple
-              onChange={handleImageUpload}
-            />
-          </div>
-
-          <div className="form-action">
-            <button
-              type="submit"
-              className="submitbutton"
-              disabled={!isVerified}
-            >
-              Submit Farm Details
-            </button>
-          </div>
-        </form>
-
-        <div className="form-footer">
-          <p style={{fontSize:"1.25rem"}}>Ensure your documents are verified before submitting the farm details.</p>
+            <div className="d-grid mb-3">
+              <button type="submit" className="btn btn-primary btn-lg" disabled={!isVerified}>
+                Submit Farm Details
+              </button>
+            </div>
+            {!isVerified && (
+              <p className="text-danger text-center mt-2">
+                Your documents must be verified to add a farm. 🔒
+              </p>
+            )}
+          </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
