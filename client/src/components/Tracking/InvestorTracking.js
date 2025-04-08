@@ -12,8 +12,6 @@ const InvestorTracking = () => {
     activeInvestments: 0,
   });
   const [loading, setLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedInvestment, setSelectedInvestment] = useState(null);
 
   const fetchInvestments = async () => {
     setLoading(true);
@@ -40,16 +38,6 @@ const InvestorTracking = () => {
   useEffect(() => {
     fetchInvestments();
   }, []);
-
-  const handleViewDetails = (investment) => {
-    setSelectedInvestment(investment);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedInvestment(null);
-  };
 
   return (
     <>
@@ -78,9 +66,11 @@ const InvestorTracking = () => {
                 <thead>
                   <tr>
                     <th>Farm Name</th>
+                    <th>Description</th>
+                    <th>Amount Invested</th>
+                    <th>Interest Rate</th>
                     <th>Start Date</th>
                     <th>Status</th>
-                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -88,6 +78,9 @@ const InvestorTracking = () => {
                     investments.map((investment) => (
                       <tr key={investment._id}>
                         <td>{investment.farm && investment.farm.name}</td>
+                        <td>{investment.farm && investment.farm.description}</td>
+                        <td>Rs {investment.amount}</td>
+                        <td>{investment.interestRate}%</td>
                         <td>
                           {new Date(investment.startDate).toLocaleDateString()}
                         </td>
@@ -98,24 +91,11 @@ const InvestorTracking = () => {
                             {investment.status}
                           </span>
                         </td>
-                        <td>
-                          <button
-                            onClick={() => handleViewDetails(investment)}
-                            className="view-details-btn1"
-                            style={{
-                              backgroundColor: "black",
-                              color: "white",
-                              fontSize: "1.25rem",
-                            }}
-                          >
-                            Tracking
-                          </button>
-                        </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="4">No investments found.</td>
+                      <td colSpan="6">No investments found.</td>
                     </tr>
                   )}
                 </tbody>
@@ -128,36 +108,6 @@ const InvestorTracking = () => {
       <NavLink to={`/issue/investor`}>
         <button className="report-issue-btn">Report An Issue</button>
       </NavLink>
-
-      {isModalOpen && selectedInvestment && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <button className="close-btn" onClick={closeModal}>
-              X
-            </button>
-            <h2 style={{ color: "white", textAlign: "center" }}>
-              {selectedInvestment.farm && selectedInvestment.farm.name}
-            </h2>
-            <p style={{ textAlign: "center" }}>
-              <b>Description:</b>{" "}
-              {selectedInvestment.farm && selectedInvestment.farm.description}
-            </p>
-            <p style={{ textAlign: "center" }}>
-              <b>Amount Invested:</b> Rs {selectedInvestment.amount}
-            </p>
-            <p style={{ textAlign: "center" }}>
-              <b>Interest Rate:</b> {selectedInvestment.interestRate}%
-            </p>
-            <p style={{ textAlign: "center" }}>
-              <b>Start Date:</b>{" "}
-              {new Date(selectedInvestment.startDate).toLocaleDateString()}
-            </p>
-            <p style={{ textAlign: "center" }}>
-              <b>Status:</b> {selectedInvestment.status}
-            </p>
-          </div>
-        </div>
-      )}
     </>
   );
 };

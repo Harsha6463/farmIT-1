@@ -47,7 +47,7 @@
 .investment-table td {
   padding: 16px;
   text-align: left;
-  font-size: 25px;
+  font-size: 1.2rem;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -55,7 +55,6 @@
   background: linear-gradient(135deg, #2782de, #35dc51);
   color: white;
   text-transform: uppercase;
-
 }
 
 .investment-table tr:hover {
@@ -74,7 +73,7 @@
   padding: 8px 14px;
   border-radius: 6px;
   font-weight: 600;
-  font-size: 25px;
+  font-size: 1.1rem;
   display: inline-block;
 }
 
@@ -130,6 +129,7 @@
   transform: scale(1.05);
 }
 
+/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -143,6 +143,7 @@
   z-index: 1000;
 }
 
+/* Modal Container */
 .modal {
   background-color: #222;
   color: #fff;

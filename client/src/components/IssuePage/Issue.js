@@ -40,7 +40,7 @@ const Issue = () => {
   return (
     <>
       <div className="container py-5">
-      <Navbar UserType="farmer" />
+      <Navbar UserType={userType} />
         <div className="card p-4 shadow" style={{ backgroundColor: "#e6f0ff", maxWidth: "800px", margin: "auto" }}>
           <h2 className="text-center mb-4">📝 Report an Issue</h2>
           <form onSubmit={handleSubmit}>

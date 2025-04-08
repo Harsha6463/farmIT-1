@@ -83,7 +83,7 @@ const AddFarm = () => {
   };
 
   return (
-    <div className="container-fluid py-5" style={{ backgroundColor: "transparent", minHeight: "100vh", marginTop: "30px" }}>
+    <div className="container-fluid py-5" style={{ backgroundColor: "transparent", minHeight: "100vh", marginTop: "80px" }}>
       <Navbar UserType="farmer" />
       <div className="d-flex justify-content-center">
         <div className="card p-4 shadow" style={{ maxWidth: "700px", width: "100%", backgroundColor: "#e6f0ff" }}>
