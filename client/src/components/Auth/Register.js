@@ -254,50 +254,40 @@ const Register = () => {
       </div>
 
       <style>
-        {`
-          .react-tel-input .custom-phone-input {
-            height: calc(1.5em + 1rem + 2px);
-            font-size: 1.25rem;
-            padding-left: 58px !important;
-            width: 100%;
-            border-radius: 0.3rem;
-            border: 1px solid #ced4da;
-            box-shadow: none;
-          }
+{`
+  .react-tel-input .custom-phone-input {
+    height: calc(1.5em + 1rem + 2px);
+    font-size: 1.25rem;
+    padding-left: 58px !important;
+    width: 100%;
+    border-radius: 0.3rem;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+  }
 
-          .react-tel-input .custom-phone-button {
-            height: 100%;
-            border-radius: 0.375rem 0 0 0.375rem;
-            border: 1px solid #ced4da;
-            background-color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
+  .react-tel-input .custom-phone-button {
+    height: 100%;
+    border-radius: 0.375rem 0 0 0.375rem;
+    border: 1px solid #ced4da;
+    background-color: #fff;
+    display: flex;
+    align-items: left;
+    justify-content: center;
+  }
 
-          .react-tel-input .flag-dropdown {
-            border-right: none;
-            left: 0 !important;
-          }
+  .react-tel-input .flag-dropdown {
+    border-right: none;
+  }
 
-          .react-tel-input {
-            width: 100%;
-          }
+  .react-tel-input {
+    width: 100%;
+  }
 
-          .react-tel-input .form-control {
-            margin: 0;
-          }
-
-          .flag-dropdown.open {
-            overflow-y: auto;
-            max-height: 200px;
-          }
-
-          .country-list {
-            text-align: left;
-          }
-        `}
-      </style>
+  .react-tel-input .form-control {
+    margin: 0;
+  }
+`}
+</style>
     </div>
   );
 };
