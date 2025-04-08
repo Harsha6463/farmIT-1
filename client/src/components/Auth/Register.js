@@ -69,6 +69,11 @@ const Register = () => {
     }
   };
 
+
+  const getBorderClass = (fieldValue) => {
+    return fieldValue.trim() ? "border-success" : "border-danger";
+  };
+
   return (
     <div
       className="container-fluid py-5"
@@ -92,7 +97,9 @@ const Register = () => {
                 </label>
                 <input
                   type="text"
-                  className="form-control form-control-lg"
+                  className={`form-control form-control-lg ${getBorderClass(
+                    formData.firstName
+                  )}`}
                   placeholder="👤 First Name"
                   value={formData.firstName}
                   onChange={(e) =>
@@ -107,7 +114,9 @@ const Register = () => {
                 </label>
                 <input
                   type="text"
-                  className="form-control form-control-lg"
+                  className={`form-control form-control-lg ${getBorderClass(
+                    formData.lastName
+                  )}`}
                   placeholder="👤 Last Name"
                   value={formData.lastName}
                   onChange={(e) =>
@@ -124,7 +133,9 @@ const Register = () => {
               </label>
               <input
                 type="email"
-                className="form-control form-control-lg"
+                className={`form-control form-control-lg ${getBorderClass(
+                  formData.email
+                )}`}
                 placeholder="📧 example@email.com"
                 value={formData.email}
                 onChange={(e) =>
@@ -140,7 +151,9 @@ const Register = () => {
               </label>
               <input
                 type="password"
-                className="form-control form-control-lg"
+                className={`form-control form-control-lg ${getBorderClass(
+                  formData.password
+                )}`}
                 placeholder="🔒 Strong Password"
                 value={formData.password}
                 onChange={(e) =>
@@ -165,7 +178,9 @@ const Register = () => {
                   required: true,
                 }}
                 containerClass="w-100"
-                inputClass="form-control form-control-lg custom-phone-input"
+                inputClass={`form-control form-control-lg custom-phone-input ${getBorderClass(
+                  formData.mobileNumber
+                )}`}
                 buttonClass="custom-phone-button"
               />
             </div>
@@ -175,7 +190,9 @@ const Register = () => {
                 Role <span className="text-danger">*</span>
               </label>
               <select
-                className="form-select form-select-lg"
+                className={`form-select form-select-lg ${getBorderClass(
+                  formData.role
+                )}`}
                 value={formData.role}
                 onChange={(e) =>
                   setFormData({ ...formData, role: e.target.value })

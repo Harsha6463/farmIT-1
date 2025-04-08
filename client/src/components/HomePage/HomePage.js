@@ -44,9 +44,9 @@ const HomePage = () => {
       <Navbar />
 
       <header className="header" id="home">
-        <h1 className="title">Farm IT</h1>
+        <h1 style={{color:"white", fontSize:"50px"}} className="title">Farm IT</h1>
         <p className="tagline">Empowering Farmers with Smart Solutions & Sustainable Growth</p>
-        <a href="/login" className="cta-btn">Get Started</a>
+        <a href="/login" className="cta-btns">Get Started</a>
       </header>
 
       <section className="features" id="features">

@@ -11,7 +11,24 @@ body {
   color: #333;
   scroll-behavior: smooth;
 }
-
+.cta-btns {
+  text-decoration: none;
+  background-color: #fff;
+  color: #e74c3c;
+  padding: 14px 28px;
+  margin: 20px auto;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+}
+.cta-btns:hover {
+  background-color: #1273c4;
+  color: white;
+  transform: translateY(-5px);
+}
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -99,7 +116,7 @@ body {
   text-align: center;
   padding: 60px 20px;
   width: 100%;
-  background: linear-gradient(to right, #1abc9c, #2ecc71);
+  background:#2c3e50 ;
   color: white;
   border-radius: 15px;
 }
@@ -152,9 +169,10 @@ body {
 }
 
 .feature-cards {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 40px;
+  justify-items: center;
   flex-wrap: wrap;
 }
 
@@ -181,7 +199,7 @@ body {
 }
 
 .feature-card p {
-  font-size: 1em;
+  font-size: 1.2em;
   color: #666;
   line-height: 1.5;
 }
@@ -246,19 +264,23 @@ body {
   color: #555;
 }
 
-
-@media (max-width: 992px) {
-  .data-card {
-    width: 45%;
+@media (max-width: 1200px) {
+  .feature-cards {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 600px) {
-  .data-card {
-    width: 100%;
+@media (max-width: 768px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
+@media (max-width: 480px) {
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+}
 
 .contact {
   padding: 80px 20px;
