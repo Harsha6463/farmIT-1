@@ -292,7 +292,7 @@ body {
   border-bottom-right-radius: 30px;
   box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.1);
   margin-bottom: 40px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .footer {
@@ -312,4 +312,33 @@ body {
 
 .footer-icon:hover {
   color: #f39c12;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: black;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 20px;
+  list-style-type: none;
+}
+
+.navbar-link {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+.navbar-link.active {
+  background-color: #0970de;
+  color: #fff;
 }

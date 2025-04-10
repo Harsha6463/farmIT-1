@@ -1,4 +1,4 @@
-.profile-container {
+/* .profile-container {
     text-align: center;
     padding: 20px;
     max-width: 800px;
@@ -147,5 +147,77 @@
       width: 120px;
       height: 120px;
     }
+  }
+   */
+
+   /* .profile-page {
+    background-color: #f1f3f6;
+    min-height: 100vh;
+    padding-top: 80px;
+  }
+  
+  .profile-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .profile-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 30px;
+    transition: all 0.3s ease;
+  }
+  
+  .profile-img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #dee2e6;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .placeholder-img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background-color: #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #6c757d;
+  }
+  
+  .info-item {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .btn-primary {
+    padding: 10px 25px;
+    border-radius: 8px;
+  }
+   */
+
+   .profile-background {
+    background-image: url("https://cdn.wallpapersafari.com/12/28/0objwK.jpg");
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    backdrop-filter: blur(2px);
+    border-radius: 1rem;
+  }
+  
+  .profile-wrapper {
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .list-group-item {
+    background-color: rgba(255, 255, 255, 0.85);
   }
   

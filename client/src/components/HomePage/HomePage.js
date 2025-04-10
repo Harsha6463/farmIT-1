@@ -13,12 +13,13 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 import "./HomePage.css";
+import {  NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <a href="#home" className="logo">🌿Farm IT</a>
+        <a style={{fontSize:"2.5rem"}} href="#home" className="logo">🌿Farm IT</a>
       </div>
       <ul className="navbar-links">
         <li><a href="#home" className="navbar-link">Home</a></li>
@@ -26,13 +27,8 @@ const Navbar = () => {
         <li><a href="#data" className="navbar-link">Information</a></li>
         <li><a href="#about" className="navbar-link">About</a></li>
         <li><a href="#contact" className="navbar-link">Contact</a></li>
-        <li className="navbar-dropdown">
-          <span className="navbar-link">Account ▾</span>
-          <ul className="dropdown-menu">
-            <li><a href="/login" className="dropdown-item">Login</a></li>
-            <li><a href="/register" className="dropdown-item">Sign Up</a></li>
-          </ul>
-        </li>
+        <li><NavLink to="/login" className="navbar-link">Login</NavLink></li>
+        <li><NavLink to="/register" className="navbar-link">Register</NavLink></li>
       </ul>
     </nav>
   );

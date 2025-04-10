@@ -81,6 +81,7 @@ const Register = () => {
       className="container-fluid py-5"
       style={{ backgroundColor: "transparent", minHeight: "100vh" }}
     >
+      
       <div className="d-flex justify-content-center">
         <div
           className="card p-4 shadow"
