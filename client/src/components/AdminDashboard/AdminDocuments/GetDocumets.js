@@ -4,7 +4,6 @@ import Navbar from '../../Navbar/Navbar';
 import { toast } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const GetDocuments = () => {
   const [documents, setDocuments] = useState([]);
   const [error, setError] = useState(null);
@@ -12,11 +11,18 @@ const GetDocuments = () => {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          toast.error('Please log in first.');
+          return;
+        }
+
         const response = await API.get('http://localhost:3600/api/admin/documents', {
           headers: {
-            'Authorization': `Bearer YOUR_JWT_TOKEN`,
+            Authorization: `Bearer ${token}`,
           },
         });
+
         setDocuments(response.data);
       } catch (err) {
         setError('Failed to fetch documents');
@@ -61,10 +67,7 @@ const GetDocuments = () => {
         <p className="text-muted text-center">No documents available.</p>
       ) : (
         <div className="table-responsive">
-          <table
-            className="table table-bordered table-hover align-middle"
-            style={{ fontSize: "1.25rem" }}
-          >
+          <table className="table table-bordered table-hover align-middle" style={{ fontSize: "1.25rem" }}>
             <thead className="table-dark">
               <tr>
                 <th>Title</th>
@@ -84,8 +87,12 @@ const GetDocuments = () => {
                     {doc.owner ? (
                       <div className="d-flex align-items-center">
                         <img
-                          src={doc.owner.profilePic || "https://bootdey.com/img/Content/avatar/avatar7.png"}
-                          alt="Uploader"
+                          src={
+                            doc.owner.profilePic
+                              ? `http://localhost:3600/${doc.owner.profilePic}`
+                              : "https://i.imgur.com/8RKXAIV.jpg"
+                          }
+                          alt="user"
                           className="rounded-circle me-2"
                           width="50"
                           height="50"

@@ -8,10 +8,13 @@ const AdminUsersDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
+
+  
   const fetchUsers = async () => {
     setLoading(true);
     try {
@@ -60,6 +63,8 @@ const AdminUsersDashboard = () => {
       </span>
     );
   };
+ 
+  
 
   return (
     <>
@@ -89,8 +94,11 @@ const AdminUsersDashboard = () => {
                     <td>
                       <div className="d-flex align-items-center">
                         <img
-                          src={"https://bootdey.com/img/Content/avatar/avatar7.png"}
-                          alt="Profile"
+                        src={
+                          user.profilePic
+                            ? `http://localhost:3600/${user.profilePic}`
+                            : "https://i.imgur.com/8RKXAIV.jpg"
+                        } alt=""
                           className="rounded-circle me-2"
                           width="50"
                           height="50"
