@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import API from '../../../API';
 import Navbar from '../../Navbar/Navbar';
 import { toast } from 'react-toastify';
-import './GetDocuments.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const GetDocuments = () => {
   const [documents, setDocuments] = useState([]);
@@ -25,7 +26,7 @@ const GetDocuments = () => {
     };
 
     fetchDocuments();
-  }, []); 
+  }, []);
 
   const handleVerify = async (id) => {
     try {
@@ -52,59 +53,84 @@ const GetDocuments = () => {
   };
 
   return (
-    <div className="document-container">
+    <div className="mt-5" style={{ width: "90%", marginLeft: "90px" }}>
       <Navbar UserType="admin" />
-      <h2 className="title" style={{marginTop:"80px"}}>Documents List</h2>
-      {error && <p>{error}</p>}
+      <h2 className="title" style={{ marginTop: "120px" }}>📄 Documents List</h2>
+      {error && <p className="text-danger">{error}</p>}
       {documents.length === 0 ? (
-        <p className="no-documents">No documents available.</p>
+        <p className="text-muted text-center">No documents available.</p>
       ) : (
-        <table className="document-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Type</th>
-              <th>Uploaded</th>
-              <th>Uploaded By</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {documents.map((doc) => (
-              <tr key={doc._id}>
-                <td style={{fontSize:"1.35rem"}}>{doc.title}</td>
-                <td  style={{fontSize:"1.35rem"}}>{doc.type}</td>
-                <td  style={{fontSize:"1.35rem"}}>{new Date(doc.uploadedAt).toLocaleString()}</td>
-                <td  style={{fontSize:"1.35rem"}}>{doc.owner ? `${doc.owner.firstName} ${doc.owner.lastName}` : 'Unknown'}</td> 
-                <td  style={{fontSize:"1.35rem"}}>
-                  <a
-                    href={`http://localhost:3600/${doc.filePath}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="view-button"
-                  >
-                    View
-                  </a>
-                  <a
-                    href={`http://localhost:3600/${doc.filePath}`}
-                    download
-                    className="download-button"
-                  >
-                    ⬇️ download
-                  </a>
-                  {!doc.isVerified && (
-                    <button
-                      className="verify-button"
-                      onClick={() => handleVerify(doc._id)}
-                    >
-                      Verify
-                    </button>
-                  )}
-                </td>
+        <div className="table-responsive">
+          <table
+            className="table table-bordered table-hover align-middle"
+            style={{ fontSize: "1.25rem" }}
+          >
+            <thead className="table-dark">
+              <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Uploaded</th>
+                <th>Uploaded By</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {documents.map((doc) => (
+                <tr key={doc._id}>
+                  <td>{doc.title}</td>
+                  <td>{doc.type}</td>
+                  <td>{new Date(doc.uploadedAt).toLocaleString()}</td>
+                  <td>
+                    {doc.owner ? (
+                      <div className="d-flex align-items-center">
+                        <img
+                          src={doc.owner.profilePic || "https://bootdey.com/img/Content/avatar/avatar7.png"}
+                          alt="Uploader"
+                          className="rounded-circle me-2"
+                          width="50"
+                          height="50"
+                        />
+                        <span>{`${doc.owner.firstName} ${doc.owner.lastName}`}</span>
+                      </div>
+                    ) : (
+                      'Unknown'
+                    )}
+                  </td>
+                  <td>
+                    <div className="d-flex flex-wrap gap-2">
+                      <a
+                        href={`http://localhost:3600/${doc.filePath}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-sm btn-primary"
+                        style={{ fontSize: '1.25rem' }}
+                      >
+                        👁️ View
+                      </a>
+                      <a
+                        href={`http://localhost:3600/${doc.filePath}`}
+                        download
+                        className="btn btn-sm btn-secondary"
+                        style={{ fontSize: '1.25rem' }}
+                      >
+                        ⬇️ Download
+                      </a>
+                      {!doc.isVerified && (
+                        <button
+                          className="btn btn-sm btn-success"
+                          style={{ fontSize: '1.25rem' }}
+                          onClick={() => handleVerify(doc._id)}
+                        >
+                          ✅ Verify
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
