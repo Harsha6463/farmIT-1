@@ -48,7 +48,7 @@ class AdminController {
     try {
 
       const documents = await Document.find()
-      .populate('owner', 'firstName lastName profilePic');
+       .populate('owner', 'firstName lastName profilePic');
       
       res.json(documents);  
     } catch (err) {
