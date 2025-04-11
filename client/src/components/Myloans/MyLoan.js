@@ -75,7 +75,7 @@ const MyLoan = () => {
                     <td>Rs {loan.amount.toLocaleString()}</td>
                     <td>
                       <span className={`my-loans-status ${loan.status.toLowerCase()}`}>
-                        {loan.status}
+                        {loan.status === "pending" ? "⏳ Pending" : loan.status}
                       </span>
                     </td>
                     <td>
@@ -95,9 +95,9 @@ const MyLoan = () => {
           <p className="my-loans-empty">No loans found.</p>
         )}
 
-         <NavLink to={`/issue/farmer`}>
-                  <button className="report-issue-btn"> ⚠️ Report an Issue?</button>
-                </NavLink>
+        <NavLink to={`/issue/farmer`}>
+          <button className="report-issue-btn"> ⚠️ Report an Issue?</button>
+        </NavLink>
 
         {selectedLoan && (
           <div className="my-loans-modal-overlay">
@@ -115,7 +115,7 @@ const MyLoan = () => {
               <p style={{ fontSize: "15px" }}>
                 <b>Status:</b>{" "}
                 <span className={`my-loans-status ${selectedLoan.status.toLowerCase()}`}>
-                  {selectedLoan.status}
+                  {selectedLoan.status === "pending" ? "⏳ Pending" : selectedLoan.status}
                 </span>
               </p>
 
@@ -135,7 +135,7 @@ const MyLoan = () => {
                         <p>
                           <b>Status:</b>{" "}
                           <span className={`my-loans-status ${payment.status.toLowerCase()}`}>
-                            {payment.status}
+                            {payment.status === "pending" ? "⏳ Pending" : payment.status}
                           </span>
                         </p>
                         {payment.status === "pending" && (

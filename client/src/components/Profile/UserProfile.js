@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import API from "../../API";
 import Navbar from "../Navbar/Navbar";
+import confetti from "canvas-confetti";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -13,6 +14,14 @@ const UserProfile = () => {
     localStorage.removeItem("token");
     toast.success("🚪 Logged out successfully!");
     navigate("/login");
+  };
+
+  const Confettibutton = () => {
+    confetti({
+      particleCount: 100,
+      spread: 80,
+     
+    });
   };
 
   useEffect(() => {
@@ -32,7 +41,7 @@ const UserProfile = () => {
           });
           setDocuments(documentsResponse.data);
         }
-      } catch (err) {
+      } catch {
         toast.error("Error fetching profile data");
       }
     };
@@ -65,8 +74,9 @@ const UserProfile = () => {
                     : "https://i.imgur.com/8RKXAIV.jpg"
                 }
                 alt="user"
+                onClick={Confettibutton}
                 className="rounded-circle border border-white"
-                style={{ width: "150px", height: "150px", objectFit: "cover" }}
+                style={{ width: "150px", height: "150px", objectFit: "cover", cursor: "pointer" }}
               />
             </div>
             <h3 className="mt-3 mb-4" style={{ color: "#00bfff" }}>
@@ -83,7 +93,7 @@ const UserProfile = () => {
                   [
                     "✅ Status",
                     <span style={{ color: user.isVerified ? "#90ee90" : "red" }}>
-                      {user.isVerified ? " ✅ Verified" : "Not Verified"}
+                      {user.isVerified ? "✅ Verified" : "Not Verified"}
                     </span>,
                   ],
                   ["📅 Joined", new Date(user.createdAt).toLocaleDateString()],
@@ -95,7 +105,6 @@ const UserProfile = () => {
                   </div>
                 ))}
 
-                {/* Documents Section */}
                 <div className="mb-4 row">
                   <div className="col-sm-4 fw-bold text-primary">🗂️ Documents</div>
                   <div className="col-sm-1 text-center">:</div>
@@ -127,7 +136,6 @@ const UserProfile = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="d-flex justify-content-between px-4 mb-2">
               <NavLink
                 to="/documents"

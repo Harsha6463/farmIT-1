@@ -182,7 +182,6 @@ const Register = () => {
                 buttonClass="custom-phone-button"
               />
             </div>
-
             <div className="mb-3">
               <label className="form-label text-start w-100 fw-bold text-black fs-5">
                 Role <span className="text-danger">*</span>
