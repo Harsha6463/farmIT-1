@@ -372,3 +372,41 @@ body {
   padding-top: 15px;
   font-size: 1.3rem;
 }
+
+
+.carousel-item img {
+
+
+  height: 850px;
+}
+
+.carousel-caption {
+  background-color: transparent; 
+  color: white;
+  font-size: 2rem; 
+  text-align: center; 
+}
+
+.carousel-caption h5 {
+  font-size: 5.5rem;  
+  position: relative;
+  bottom: 100px;
+
+}
+
+.carousel-caption p {
+  font-size: 3rem; 
+  position: relative;
+  bottom: 100px;
+}
+.carousel-title {
+  background-color: #007bff; 
+  margin: 0; 
+  padding: 15px; 
+  color: white; 
+}
+.carousel-control-prev:focus,
+.carousel-control-next:focus {
+  outline: none ; 
+  box-shadow: none ;
+}
