@@ -13,7 +13,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 const Navbar = () => (
   <nav className="navbar">
     <div className="navbar-logo">
-      <a style={{ fontSize: "2.5rem" }} href="#home" className="logo">🌿Farm IT</a>
+      <a style={{ fontSize: "2.5rem",color:"black" }} href="#home" className="logo"><img className="farmitlogo" src="/assets/logo.png" alt="Logo"></img></a>
     </div>
     <ul className="navbar-links">
       <li><a href="#home" className="navbar-link">Home</a></li>
@@ -21,6 +21,7 @@ const Navbar = () => (
       <li><a href="#data" className="navbar-link">Information</a></li>
       <li><a href="#about" className="navbar-link">About</a></li>
       <li><a href="#contact" className="navbar-link">Contact Us</a></li>
+      <li><NavLink to="/login" className="navbar-link">Login</NavLink></li>
       <li><NavLink to="/register" className="navbar-link">Register</NavLink></li>
     </ul>
   </nav>
@@ -29,11 +30,11 @@ const Navbar = () => (
 const HomePage = () => (
   <div className="homepage">
     <Navbar />
-    <header className="header" id="home">
+    {/* <header className="header" id="home">
       <h1 style={{ color: "lightBlue" }} className="title">Farm IT</h1>
       <p className="tagline">Empowering Farmers with Smart Solutions & Sustainable Growth</p>
       <a href="/login" className="cta-btns">Get Started</a>
-    </header>
+    </header> */}
 
     <div id="farmCarousel" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
     <h2 className="carousel-title display-4 text-center text-white">Transforming Agriculture with Smart Technology</h2>

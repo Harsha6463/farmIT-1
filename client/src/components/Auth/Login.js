@@ -88,7 +88,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+    <div className=" d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
       <div className="card shadow p-4" style={{ maxWidth: "500px", width: "100%", backgroundColor: "#e6f0ff" }}>
         <h3 className="text-center mb-4">🔐 Login</h3>
         <form onSubmit={handleSubmit} noValidate>
