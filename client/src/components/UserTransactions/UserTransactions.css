@@ -63,7 +63,7 @@
 .transactions-table td {
   padding: 16px;
   text-align: left;
-  font-size: 1.3rem; 
+  font-size: 18px; 
   color: #333;
 }
 
@@ -83,18 +83,21 @@
   display: inline-block;
   text-align: center;
   width: 130px;
+ 
 }
 
 .status.investment {
 
   color:  rgb(11, 29, 231);
   padding: 10px;
+  font-size: 18px;
 }
 
 .status.repayment {
  
   color: #28a745;
    padding: 10px;
+   font-size: 18px; 
 }
 
 .view-btn,

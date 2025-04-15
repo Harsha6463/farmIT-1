@@ -53,7 +53,7 @@ const MyLoan = () => {
     <>
       <Navbar UserType={"farmer"} />
       <div className="my-loans-container">
-        <h1 className="my-loans-title">My Loans</h1>
+        <h1 style={{marginTop:"30px"}} className="title">My Loans</h1>
 
         {loading ? (
           <p className="my-loans-loading">Loading loans...</p>

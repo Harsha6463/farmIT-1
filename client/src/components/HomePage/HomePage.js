@@ -5,7 +5,7 @@ import {
   FaEnvelope, FaPhone, FaMapMarkerAlt,
   FaFacebookF, FaTwitter, FaInstagram, FaWhatsapp,
 } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./HomePage.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -28,13 +28,9 @@ const Navbar = () => (
 );
 
 const HomePage = () => (
-  <div className="homepage">
+  <div id="home" className="homepage">
     <Navbar />
-    {/* <header className="header" id="home">
-      <h1 style={{ color: "lightBlue" }} className="title">Farm IT</h1>
-      <p className="tagline">Empowering Farmers with Smart Solutions & Sustainable Growth</p>
-      <a href="/login" className="cta-btns">Get Started</a>
-    </header> */}
+ 
 
     <div id="farmCarousel" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
     <h2 className="carousel-title display-4 text-center text-white">Transforming Agriculture with Smart Technology</h2>
@@ -83,6 +79,7 @@ const HomePage = () => (
         <span className="visually-hidden">Next</span>
       </button>
     </div>
+    
 
     <section className="features" id="features">
       <h2 className="section-title">Our Features</h2>
@@ -139,9 +136,9 @@ const HomePage = () => (
       <div style={{ marginTop: "30px", lineHeight: "2", fontSize: "1.1rem" }}>
         <p><FaEnvelope style={{ marginRight: "10px" }} /> farmit@farmconnect.com</p>
         <p><FaPhone style={{ marginRight: "10px" }} /> +91 9390034150</p>
-        <p><FaMapMarkerAlt style={{ marginRight: "10px" }} /> 123 Agri Lane, HYD</p>
+        <p><FaMapMarkerAlt style={{ marginRight: "10px" }} />Plat-No:123-23,Cyber-Towers, Hi-Tech City, HYD</p>
       </div>
-      <a href="mailto:farmit@farmconnect.com" className="cta-btn">Contact Us</a>
+      <Link to="/contactus" href="mailto:farmit@farmconnect.com" className="cta-btn">Contact Us</Link>
     </section>
 
     <footer className="footer">

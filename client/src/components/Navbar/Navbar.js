@@ -1,169 +1,119 @@
-import React from "react";
-import { useNavigate, NavLink } from "react-router-dom";
-import "./Navbar.css";
+import React, { useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import {
+  HiUsers, HiHome, HiDocumentText, HiCash, HiChartBar,
+  HiOfficeBuilding, HiCreditCard, HiDocumentDuplicate,
+  HiShieldCheck, HiExclamationCircle,
+  HiUserCircle, HiCog, HiQuestionMarkCircle, HiLogout
+} from 'react-icons/hi';
+import { FaSeedling, FaLeaf } from 'react-icons/fa';
+import './Navbar.css';
+
+const navigationConfig = {
+  farmer: [
+    { path: '/farmerDashboard', label: 'Dashboard', icon: HiHome },
+    { path: '/my-loans', label: 'My Loans', icon: HiCash },
+    { path: '/documents', label: 'Upload Documents', icon: HiDocumentText },
+    { path: '/my-documents', label: 'My Documents', icon: HiDocumentDuplicate },
+    { path: '/userissues', label: 'Issues', icon: HiExclamationCircle },
+  ],
+  investor: [
+    { path: '/investorFeed', label: 'Available Loans', icon: HiCash },
+    { path: '/investorDashboard', label: 'Dashboard', icon: HiHome },
+    { path: '/investorTracking', label: 'Tracking', icon: HiChartBar },
+    { path: '/userissues', label: 'Issues', icon: HiExclamationCircle },
+    { path: '/Analytics', label: 'Analytics', icon: HiChartBar },
+  ],
+  admin: [
+    { path: '/adminUsersDashboard', label: 'Users', icon: HiUsers },
+    { path: '/adminFarmsDashboard', label: 'Farms', icon: HiOfficeBuilding },
+    { path: '/adminLoansDashboard', label: 'Loans', icon: HiCash },
+    { path: '/adminIssuesDashboard', label: 'Issues', icon: HiExclamationCircle },
+    { path: '/userTransactions', label: 'Transactions', icon: HiCreditCard },
+    { path: '/userDocuments', label: 'User Documents', icon: HiDocumentText },
+    { path: '/verifyInvestments', label: 'Verification', icon: HiShieldCheck },
+  ],
+};
+
+const userMenuItems = [
+  { label: 'Profile', icon: HiUserCircle, path: '/profile' },
+  { label: 'Settings', icon: HiCog, path: '/settings' },
+  { label: 'Help & Support', icon: HiQuestionMarkCircle, path: '/contactus' },
+];
 
 const Navbar = ({ UserType }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
   };
 
-  const activeNavLink = (isActive) => ({
-    backgroundColor: isActive ? "blue" : "transparent",
-    color: "white",
-    borderRadius: isActive ? "6px" : "none",
-  });
+  const isActivePath = (path) => location.pathname === path;
+  const togglePopup = () => setIsPopupOpen((prev) => !prev);
 
   return (
-    <nav className="navigation-bar">
-      <div className="nav-left">
-        <div style={{ fontSize: "3rem", color: "gold" }} className="brand-logo">
-        🌿FARM IT
+    <nav className="navbar">
+      <div className="navbar-container">
+        <Link to="/" className="logo">
+          <div className="logo-icon">
+            <FaSeedling />
+            <FaLeaf className="leaf-icon" />
+          </div>
+          <span style={{ fontSize: "2.5rem" }} className="logo-text">
+            Farm<span className="logo-highlight">IT</span>
+          </span>
+        </Link>
+
+        <div className="nav-links">
+          {navigationConfig[UserType]?.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`nav-item ${isActivePath(item.path) ? 'active' : ''}`}
+            >
+              <item.icon className="nav-icon" />
+              {item.label}
+            </Link>
+          ))}
         </div>
-      </div>
-      <div className="nav-center">
-        {UserType === "farmer" && (
-          <>
-            <NavLink
-              to="/farmerDashboard"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              🚜Dashboard
-            </NavLink>
-            <NavLink
-              to="/my-loans"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              💰 My-Loans
-            </NavLink>
-            <NavLink
-              to="/documents"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              📄 Upload Documents
-            </NavLink>
-            <NavLink
-              to="/my-documents"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              📂 MyDocuments
-            </NavLink>
-            <NavLink
-              to="/userissues"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              🚨Issues
-            </NavLink>
-            <NavLink
-              to="/profile"
-              className="nav-item"
-            >👨‍🌾 profile</NavLink>
-          </>
-        )}
-        {UserType === "investor" && (
-          <>
-            <NavLink
-              to="/investorFeed"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              🏦 Available Loans
-            </NavLink>
-            <NavLink
-              to="/investorDashboard"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              💰Dashboard
-            </NavLink>
-            <NavLink
-              to="/investorTracking"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              📊 Tracking
-            </NavLink>
-            <NavLink
-              to="/userissues"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              🚨Issues
-            </NavLink>
-            <NavLink
-              to="/Analytics"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              📈Analytics
-            </NavLink>
-          </>
-        )}
-        {UserType === "admin" && (
-          <>
-            <NavLink
-              to="/adminUsersDashboard"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              👥 Users
-            </NavLink>
-            <NavLink
-              to="/adminFarmsDashboard"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              🪴Farms
-            </NavLink>
-            <NavLink
-              to="/adminLoansDashboard"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              💵 Loans
-            </NavLink>
-            <NavLink
-              to="/adminIssuesDashboard"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-              🚨Issues
-            </NavLink>
-            <NavLink
-              to="/userTransactions"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-            💸Transactions
-            </NavLink>
-            <NavLink
-              to="/userDocuments"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-               📂User Documents
-            </NavLink>
-            <NavLink
-              to="/verifyInvestments"
-              className="nav-item"
-              style={({ isActive }) => activeNavLink(isActive)}
-            >
-             ✅ Verification
-            </NavLink>
-          </>
-        )}
-      </div>
-      <div className="nav-right">
-        <button onClick={handleLogout} className="logout-btn">
-          Logout
-        </button>
+
+        <div className="profile-dropdown">
+          <button className="profile-btn" onClick={togglePopup}>
+            <div className="profile-icon">
+              <HiUserCircle />
+            </div>
+            <span className="profile-name">{user?.firstName}</span>
+          </button>
+
+          {isPopupOpen && (
+            <div className="popup-menu">
+              <div className="popup-header">
+                <div className="popup-name">{user?.firstName} {user?.lastName}</div>
+                <div className="popup-email">{user?.email}</div>
+              </div>
+              {userMenuItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="popup-item"
+                  onClick={() => setIsPopupOpen(false)}
+                >
+                  <item.icon className="popup-icon" />
+                  {item.label}
+                </Link>
+              ))}
+              <button className="popup-item logout" onClick={handleLogout}>
+                <HiLogout className="popup-icon logout-icon" />
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );

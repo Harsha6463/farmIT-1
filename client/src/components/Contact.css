@@ -1,0 +1,16 @@
+.background-size-cover {
+    background-size: cover !important;
+}
+body{
+    background-color: white;
+}
+
+.form-control, .form-control-lg {
+    height: 60px; 
+}
+  .form-label {
+  text-align: left;
+    margin-bottom: 1rem; 
+    font-size: 1.25rem;
+  }
+  

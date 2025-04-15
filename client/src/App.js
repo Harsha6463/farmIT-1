@@ -25,6 +25,7 @@ import UserProfile from "./components/Profile/UserProfile";
 import GetDocuments from "./components/AdminDashboard/AdminDocuments/GetDocumets";
 import AdminVerifyInvestments from "./components/AdminDashboard/VerifyInvestments/AdminVerifyInvestments";
 import MyLoan from "./components/Myloans/MyLoan";
+import ContactUs from "./components/ContactUs";
 
 
 
@@ -70,11 +71,13 @@ function App() {
             path="/adminFarmsDashboard"
             element={<AdminFarmsDashboard />}
           />
+           <Route path="/contactus" element={<ContactUs/>} />
           <Route
             path="/adminIssuesDashboard"
             element={<AdminIssuesDashboard />}
           />
         </Routes>
+        
       </BrowserRouter>
     </div>
   );

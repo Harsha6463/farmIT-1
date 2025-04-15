@@ -17,10 +17,10 @@
   padding: 16px 20px;
   text-align: left;
   border-bottom: 1px solid #eee;
-  font-size: 23px;
+  font-size: 18px;
 }
 .issues-table td:nth-child(1) {
-  color: #0e76e6;
+  color: #0e76e6; 
   font-weight: 600;
 }
 
