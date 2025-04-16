@@ -1,5 +1,5 @@
 .navbar {
-  background: black;
+  /* background: black; */
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
@@ -64,7 +64,7 @@
   padding: 0.5rem 0.75rem;
   border-radius: 0.375rem;
   text-decoration: none;
-  color: white;
+  /* color: white; */
   font-weight: 500;
   transition: all 0.3s;
   white-space: nowrap;
@@ -185,4 +185,30 @@
 
 .popup-item.logout:hover {
   background-color: #ffe5e5;
+}
+.nav-icon {
+  color: #4CAF50;
+  transition: color 0.3s ease;
+}
+
+.nav-item.active .nav-icon {
+  color: #FF5722;
+}
+
+.profile-icon {
+  color: #2196F3;
+}
+
+.popup-icon {
+  color: #2196F3;
+}
+
+.popup-icon.logout-icon {
+  color: #F44336;
+}
+
+.nav-item:hover .nav-icon,
+.profile-btn:hover .profile-icon,
+.popup-item:hover .popup-icon {
+  color: #FFC107;
 }
