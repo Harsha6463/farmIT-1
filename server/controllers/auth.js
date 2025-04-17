@@ -4,7 +4,9 @@ import User from "../models/User.js";
 import { sendEmail } from "../services/emailService.js";
 import crypto from "crypto";
 import dotenv from "dotenv";
-import Message from "../models/Contact.js";
+import ContactMessage from "../models/Contact.js";
+import mongoose from "mongoose";
+
 
 dotenv.config();
 
@@ -165,45 +167,54 @@ class AuthController {
 
   async sendContactMessage(req, res) {
     try {
-      const { email, mobileNumber, subject, message } = req.body;
-
-      const user = await User.findOne({ email, mobileNumber });
-      console.log(user);
-
-      if (!user) {
-        return res
-          .status(404)
-          .json({ message: "No user found with this email and mobile number" });
+      const { subject, message } = req.body;
+      const userId = req.params.id;
+  
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: "Invalid user ID format" });
       }
-
-      const newMessage = new Message({
-        userId: user._id,
-        email,
-        mobileNumber,
+  
+      if (!subject || !message) {
+        return res.status(400).json({ message: "Subject and message are required." });
+      }
+  
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      const newMessage = new ContactMessage({
+        userId,
         subject,
         message,
       });
-
+  
       await newMessage.save();
-
+  
       await sendEmail(
-        email,
+        user.email,
         `📬 Farm IT - Message Received: ${subject}`,
-        `<p><strong>Dear ${user.firstName} ${user.lastName},</strong></p>
-        <p>We have received your message regarding <strong>"${subject}"</strong>.</p>
-        <p>Our support team will get back to you shortly.</p>
-        <p><strong>Your Message:</strong><br>${message}</p>
-        <p><strong>Best Regards,</strong><br>Farm IT Support Team</p>`
+        `<div style="font-family: Arial, sans-serif; color: #0d6efd;">
+          <p><strong>Dear ${user.firstName} ${user.lastName},</strong></p>
+          <p>We have received your message regarding <strong>"${subject}"</strong>.</p>
+          <p>Our support team will get back to you shortly.</p>
+          <p><strong>Your Message:</strong><br>${message}</p>
+          <br>
+          <p><strong>Best Regards,</strong><br>Farm IT Support Team</p>
+        </div>`
       );
+      
       res.json({
-        message:
-          "Your message has been sent successfully. Please check your email for confirmation.",
+        message: "✅ Your message has been sent successfully. Please check your email for confirmation.",
       });
+  
     } catch (err) {
-      console.error(err);
       res.status(500).json({ message: "Server error", error: err.message });
     }
   }
+  
+  
+  
 }
 
 export default AuthController;

@@ -1,30 +1,23 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const messageSchema = new mongoose.Schema({
+const contactMessageSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  mobileNumber: {
-    type: String,
+    ref: "User",
     required: true,
   },
   subject: {
     type: String,
+    required: true,
   },
   message: {
     type: String,
     required: true,
   },
-  sentAt: {
+  createdAt: {
     type: Date,
     default: Date.now,
-  },
+  }
 });
 
-export default mongoose.model('Message', messageSchema);
+export default mongoose.model("ContactMessage", contactMessageSchema);

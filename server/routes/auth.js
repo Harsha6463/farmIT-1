@@ -22,6 +22,6 @@ router.post("/register", upload.single("profilePic"), (req, res) => authControll
 router.post("/verify-otp", (req, res) => authController.verifyOtp(req, res)); 
 router.post("/login", (req, res) => authController.login(req, res));
 router.post("/send-otp", (req, res) => authController.sendOtp(req, res));
-router.post("/contactus", (req, res) => authController.sendContactMessage(req, res));
+router.post("/contactus/:id", (req, res) => authController.sendContactMessage(req, res));
 
 export default router;

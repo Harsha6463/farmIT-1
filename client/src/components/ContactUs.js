@@ -1,47 +1,39 @@
-import React from 'react';
-import { FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
+import React, { useState } from 'react';
 import './Contact.css';
 import API from '../API';
 
 const ContactUs = () => {
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const fullName = document.getElementById("fullName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const message = document.getElementById("message").value.trim();
-
-    if (!email || !phone || !message || !fullName) {
-      alert("Please fill in all required fields.");
+    if (!subject || !message) {
+      setErrorMessage("Please fill in both the subject and message.");
       return;
     }
 
     try {
-      const response = await API.post("/auth/contactus", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          mobileNumber: phone,
-          subject: `Contact from ${fullName}`,
-          message,
-        }),
+      const userId = localStorage.getItem('userId');
+
+      const response = await API.post(`/contactus/${userId}`, {
+        subject,
+        message,
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        alert(data.message || "Message sent successfully!");
-        e.target.reset(); 
+      if (response.status === 200) {
+        setSuccessMessage("Message sent successfully! Please check your email for confirmation.");
+        setSubject('');
+        setMessage('');
       } else {
-        alert(data.message || "Something went wrong.");
+        setErrorMessage(response.data.message || "Something went wrong.");
       }
     } catch (err) {
       console.error("Error sending message:", err);
-      alert("Server error. Please try again later.");
+      setErrorMessage("Server error. Please try again later.");
     }
   };
 
@@ -84,43 +76,6 @@ const ContactUs = () => {
                             <p style={{ color: "#fff" }} className="lead fs-4 opacity-75 mb-4 mb-xxl-5">
                               We're always on the lookout to work with new clients. If you're interested in working with us, please get in touch in one of the following ways.
                             </p>
-                            <div className="d-flex mb-4 mb-xxl-5">
-                              <div className="me-4 text-primary">
-                                <FaMapMarkerAlt size={36} />
-                              </div>
-                              <div>
-                                <h4 style={{ color: "white", fontSize: "2.25rem", textAlign: "left" }}>Address</h4>
-                                <address style={{ color: "white", fontSize: "20px" }} className="link-white mb-0 fs-4 opacity-75"> Plat-No:123-23,Cyber-Towers, Hi-Tech City, HYD</address>
-                              </div>
-                            </div>
-                            <div className="row mb-4 mb-xxl-5">
-                              <div className="col-12 col-xxl-6">
-                                <div className="d-flex mb-4 mb-xxl-0">
-                                  <div className="me-4 text-primary">
-                                    <FaPhone size={36} />
-                                  </div>
-                                  <div>
-                                    <h4 style={{ color: "white", fontSize: "2.25rem", textAlign: "left" }}>Phone</h4>
-                                    <p className="mb-0 fs-5">
-                                      <p style={{ color: "white" }} className="link-white link-opacity-75 link-opacity-100-hover text-decoration-none" href="+91 9390034150">+91 9390034150</p>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-12 col-xxl-6">
-                                <div className="d-flex mb-0">
-                                  <div className="me-4 text-primary">
-                                    <FaEnvelope size={36} />
-                                  </div>
-                                  <div>
-                                    <h4 style={{ color: "white", fontSize: "2.25rem", textAlign: "left" }}>Email</h4>
-                                    <p className="mb-0 fs-5">
-                                      <p style={{ color: "white" }} className="link-white link-opacity-75 link-opacity-100-hover text-decoration-none" href="vardhan6463@gmail.com">vardhan6463@gmail.com</p>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -133,30 +88,36 @@ const ContactUs = () => {
                           <form onSubmit={handleSubmit}>
                             <div className="row">
                               <div className="col-12">
-                                <label htmlFor="fullName" className="form-label fw-bold text-start">Full Name <span className="text-danger">*</span></label>
-                                <input type="text" className="form-control" id="fullName" placeholder="👤 Your Full Name" required />
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <label htmlFor="email" className="form-label fw-bold text-start">📧 Email <span className="text-danger">*</span></label>
-                                <div className="input-group">
-                                  <input type="email" className="form-control" id="email" name="email" required placeholder="📧 Enter your email" />
-                                </div>
-                              </div>
-                              <div className="col-12 col-md-6">
-                                <label htmlFor="phone" className="form-label fw-bold text-start"> Phone Number</label>
-                                <div className="input-group">
-                                  <input type="text" className="form-control" id="phone" placeholder="📱 Your Phone Number" />
-                                </div>
+                                <label htmlFor="subject" className="form-label fw-bold text-start">Subject <span className="text-danger">*</span></label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  id="subject"
+                                  value={subject}
+                                  onChange={(e) => setSubject(e.target.value)}
+                                  placeholder="👤 Subject"
+                                  required
+                                />
                               </div>
                               <div className="col-12">
                                 <label htmlFor="message" className="form-label fw-bold text-start">💬 Message <span className="text-danger">*</span></label>
-                                <textarea className="form-control" id="message" rows="4" required placeholder=" Your message..."></textarea>
+                                <textarea
+                                  className="form-control"
+                                  id="message"
+                                  value={message}
+                                  onChange={(e) => setMessage(e.target.value)}
+                                  rows="4"
+                                  required
+                                  placeholder="Your message..."
+                                />
                               </div>
                               <div className="col-12 mt-3">
                                 <button type="submit" className="btn btn-primary btn-lg w-100 h-100">Send Message</button>
                               </div>
                             </div>
                           </form>
+                          {errorMessage && <p className="text-danger">{errorMessage}</p>}
+                          {successMessage && <p className="text-success">{successMessage}</p>}
                         </div>
                       </div>
                     </div>
