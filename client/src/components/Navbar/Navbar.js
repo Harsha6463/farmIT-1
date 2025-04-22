@@ -115,14 +115,14 @@ const Navbar = ({ UserType }) => {
                   className="nav-profile-pic"
                 />
               </div>
-              <span className="profile-name">{user?.firstName}</span>
+              <span style={{fontSize:"1.15rem"}} className="profile-name">{user?.firstName}</span>
             </button>
 
             {isPopupOpen && (
               <div className="popup-menu">
                 <div className="popup-header">
-                  <div className="popup-name">{user?.firstName} {user?.lastName}</div>
-                  <div className="popup-email">{user?.email}</div>
+                  <div style={{color:"#fff", textAlign:"left" ,paddingLeft:"10px"}} className="popup-name">{user?.firstName} {user?.lastName}</div>
+                  <div style={{color:"#fff",textAlign:"left" ,paddingLeft:"10px"}} className="popup-email">{user?.email}</div>
                 </div>
                 {userMenuItems.map((item) => (
                   <Link
