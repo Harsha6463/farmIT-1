@@ -212,3 +212,10 @@
 .popup-item:hover .popup-icon {
   color: #FFC107;
 }
+.nav-profile-pic {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}

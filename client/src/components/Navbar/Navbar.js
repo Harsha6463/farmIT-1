@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   HiUsers, HiHome, HiDocumentText, HiCash, HiChartBar,
   HiOfficeBuilding, HiCreditCard, HiDocumentDuplicate,
   HiShieldCheck, HiExclamationCircle,
-  HiUserCircle, HiCog, HiQuestionMarkCircle, HiLogout
+  HiCog, HiQuestionMarkCircle, HiLogout
 } from 'react-icons/hi';
 import { FaSeedling, FaLeaf } from 'react-icons/fa';
+import API from '../../API'; // ✅ import your API helper
 import './Navbar.css';
 
 const navigationConfig = {
@@ -36,16 +37,16 @@ const navigationConfig = {
 };
 
 const userMenuItems = [
-  { label: 'Profile', icon: HiUserCircle, path: '/profile' },
+  { label: 'Profile', icon: HiUsers, path: '/profile' },
   { label: 'Settings', icon: HiCog, path: '/settings' },
   { label: 'Help & Support', icon: HiQuestionMarkCircle, path: '/contactus' },
 ];
 
 const Navbar = ({ UserType }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -55,6 +56,24 @@ const Navbar = ({ UserType }) => {
 
   const isActivePath = (path) => location.pathname === path;
   const togglePopup = () => setIsPopupOpen((prev) => !prev);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await API.get("http://localhost:3600/api/users/profile", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setUser(response.data);
+        } catch (err) {
+          console.error("Error fetching user profile:", err);
+        }
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <nav className="navbar">
@@ -82,38 +101,48 @@ const Navbar = ({ UserType }) => {
           ))}
         </div>
 
-        <div className="profile-dropdown">
-          <button className="profile-btn" onClick={togglePopup}>
-            <div className="profile-icon">
-              <HiUserCircle />
-            </div>
-            <span className="profile-name">{user?.firstName}</span>
-          </button>
-
-          {isPopupOpen && (
-            <div className="popup-menu">
-              <div className="popup-header">
-                <div className="popup-name">{user?.firstName} {user?.lastName}</div>
-                <div className="popup-email">{user?.email}</div>
+        {user && (
+          <div className="profile-dropdown">
+            <button className="profile-btn" onClick={togglePopup}>
+              <div className="profile-icon">
+                <img
+                  src={
+                    user?.profilePic
+                      ? `http://localhost:3600/${user.profilePic}`
+                      : 'https://i.imgur.com/8RKXAIV.jpg'
+                  }
+                  alt="User"
+                  className="nav-profile-pic"
+                />
               </div>
-              {userMenuItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className="popup-item"
-                  onClick={() => setIsPopupOpen(false)}
-                >
-                  <item.icon className="popup-icon" />
-                  {item.label}
-                </Link>
-              ))}
-              <button className="popup-item logout" onClick={handleLogout}>
-                <HiLogout className="popup-icon logout-icon" />
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
+              <span className="profile-name">{user?.firstName}</span>
+            </button>
+
+            {isPopupOpen && (
+              <div className="popup-menu">
+                <div className="popup-header">
+                  <div className="popup-name">{user?.firstName} {user?.lastName}</div>
+                  <div className="popup-email">{user?.email}</div>
+                </div>
+                {userMenuItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className="popup-item"
+                    onClick={() => setIsPopupOpen(false)}
+                  >
+                    <item.icon className="popup-icon" />
+                    {item.label}
+                  </Link>
+                ))}
+                <button className="popup-item logout" onClick={handleLogout}>
+                  <HiLogout className="popup-icon logout-icon" />
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );

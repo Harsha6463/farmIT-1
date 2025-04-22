@@ -68,7 +68,7 @@ const AdminUsersDashboard = () => {
       <Navbar UserType="admin" />
 
       <div style={{ marginTop: "120px", width: "90%", marginLeft: "90px" }}>
-        <h2 className="mb-4 fw-bold fs-2">👥 Users Dashboard</h2>
+        <h2 className="title"> Users Dashboard</h2>
 
         {loading ? (
           <p className="text-center fw-bold fs-4">Loading users...</p>

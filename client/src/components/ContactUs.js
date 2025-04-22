@@ -19,7 +19,6 @@ const ContactUs = () => {
 
     try {
       const userId = localStorage.getItem('userId');
-
       const response = await API.post(`/contactus/${userId}`, {
         subject,
         message,
